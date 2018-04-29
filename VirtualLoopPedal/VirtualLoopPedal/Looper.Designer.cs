@@ -34,6 +34,7 @@
             this.button_StopPlayback = new System.Windows.Forms.Button();
             this.trackBar_Volume = new System.Windows.Forms.TrackBar();
             this.label1 = new System.Windows.Forms.Label();
+            this.checkBox_playBack = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Volume)).BeginInit();
             this.SuspendLayout();
             // 
@@ -101,10 +102,21 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "Volume";
             // 
+            // checkBox_playBack
+            // 
+            this.checkBox_playBack.AutoSize = true;
+            this.checkBox_playBack.Location = new System.Drawing.Point(24, 188);
+            this.checkBox_playBack.Name = "checkBox_playBack";
+            this.checkBox_playBack.Size = new System.Drawing.Size(147, 17);
+            this.checkBox_playBack.TabIndex = 6;
+            this.checkBox_playBack.Text = "Play back while recording";
+            this.checkBox_playBack.UseVisualStyleBackColor = true;
+            // 
             // Looper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.checkBox_playBack);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.trackBar_Volume);
             this.Controls.Add(this.button_StopPlayback);
@@ -127,5 +139,6 @@
         private System.Windows.Forms.Button button_StopPlayback;
         private System.Windows.Forms.TrackBar trackBar_Volume;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox checkBox_playBack;
     }
 }

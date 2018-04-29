@@ -17,10 +17,27 @@ namespace VirtualLoopPedal
         [Description("Name of file to save the recording in.")]
         public string FileName = "tmp.wav";
 
+        [Description("Desired latency of audio player.")]
+        public int DesiredLatency
+        {
+            get { return desiredLatency; }
+            set
+            {
+                desiredLatency = value;
+                if (player != null)
+                    player.DesiredLatency = desiredLatency;
+            }
+        }
+        private int desiredLatency = 100;
+
         WaveInEvent recorder;
         WaveFileWriter writer;
+        BufferedWaveProvider bufferedWaveProvider;
+        bool playBackWhileRecording = false;
+
         WaveOutEvent player;
         AudioFileReader reader;
+
         bool closing = false;
 
         public Looper()
@@ -33,6 +50,9 @@ namespace VirtualLoopPedal
 
             player = new WaveOutEvent();
             player.PlaybackStopped += Player_PlaybackStopped;
+            player.DesiredLatency = DesiredLatency;
+
+            bufferedWaveProvider = new BufferedWaveProvider(recorder.WaveFormat);
 
             //Directory.CreateDirectory("data\\" + this.Name);
         }
@@ -41,7 +61,7 @@ namespace VirtualLoopPedal
         {
             //player.Dispose();
             //player = null;
-            reader.Dispose();
+            reader?.Dispose();
             reader = null;
 
             button_play.Enabled = true;
@@ -62,17 +82,30 @@ namespace VirtualLoopPedal
 
         private void Recorder_DataAvailable(object sender, WaveInEventArgs e)
         {
+            if (playBackWhileRecording)
+            {
+                bufferedWaveProvider.AddSamples(e.Buffer, 0, e.BytesRecorded);
+            }
+
             writer.Write(e.Buffer, 0, e.BytesRecorded);
 
             if (writer.Position > recorder.WaveFormat.AverageBytesPerSecond * 30) // automatically stop recording after 30 seconds
             {
                 recorder.StopRecording();
-            }
+            }            
         }
 
         private void button_record_Click(object sender, EventArgs e)
         {
+            playBackWhileRecording = checkBox_playBack.Checked;
             Directory.CreateDirectory("data\\" + this.Name);
+
+            if (checkBox_playBack.Checked)
+            {
+                player.Init(bufferedWaveProvider);
+                player.Play();
+            }
+
             writer = new WaveFileWriter("data\\" + this.Name + "\\" + FileName, recorder.WaveFormat);
             recorder.StartRecording();
             button_record.Enabled = false;
@@ -99,6 +132,8 @@ namespace VirtualLoopPedal
         private void button_StopRecording_Click(object sender, EventArgs e)
         {
             recorder.StopRecording();
+            if (playBackWhileRecording)
+                player.Stop();
             button_record.Enabled = true;
             button_StopRecording.Enabled = false;
             button_play.Enabled = true;
@@ -122,6 +157,7 @@ namespace VirtualLoopPedal
         {
             if (reader != null)
                 reader.Volume = trackBar_Volume.Value / 100f;
+
             //player.Volume = trackBar_Volume.Value / 100f; 
         }
     }
