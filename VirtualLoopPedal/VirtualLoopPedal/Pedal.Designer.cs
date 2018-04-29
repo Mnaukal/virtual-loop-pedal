@@ -35,6 +35,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox_metronome = new System.Windows.Forms.GroupBox();
+            this.looper1 = new VirtualLoopPedal.Looper();
+            this.looper2 = new VirtualLoopPedal.Looper();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_metronomeMeasuse)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_metronomeTempo)).BeginInit();
             this.groupBox_metronome.SuspendLayout();
@@ -145,11 +147,27 @@
             this.groupBox_metronome.TabStop = false;
             this.groupBox_metronome.Text = "Metronome";
             // 
+            // looper1
+            // 
+            this.looper1.Location = new System.Drawing.Point(12, 66);
+            this.looper1.Name = "looper1";
+            this.looper1.Size = new System.Drawing.Size(308, 338);
+            this.looper1.TabIndex = 6;
+            // 
+            // looper2
+            // 
+            this.looper2.Location = new System.Drawing.Point(415, 66);
+            this.looper2.Name = "looper2";
+            this.looper2.Size = new System.Drawing.Size(308, 338);
+            this.looper2.TabIndex = 6;
+            // 
             // Pedal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.looper2);
+            this.Controls.Add(this.looper1);
             this.Controls.Add(this.groupBox_metronome);
             this.Name = "Pedal";
             this.Text = "Form1";
@@ -170,6 +188,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox_metronome;
+        private Looper looper1;
+        private Looper looper2;
     }
 }
 

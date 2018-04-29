@@ -78,8 +78,10 @@ namespace VirtualLoopPedal
 
             First = new WaveOutEvent();
             First.Init(first);
+            First.Volume = 1;
             Other = new WaveOutEvent();
             Other.Init(other);
+            Other.Volume = 1;
         }
 
         public void Start()
