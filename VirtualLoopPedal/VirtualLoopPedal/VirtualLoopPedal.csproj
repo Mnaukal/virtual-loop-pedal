@@ -54,6 +54,7 @@
     <Compile Include="Looper.Designer.cs">
       <DependentUpon>Looper.cs</DependentUpon>
     </Compile>
+    <Compile Include="LoopStream.cs" />
     <Compile Include="Pedal.cs">
       <SubType>Form</SubType>
     </Compile>

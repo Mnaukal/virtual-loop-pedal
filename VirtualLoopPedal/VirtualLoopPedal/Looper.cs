@@ -24,8 +24,10 @@ namespace VirtualLoopPedal
             set
             {
                 desiredLatency = value;
-                if (player != null)
-                    player.DesiredLatency = desiredLatency;
+                if (playerBack != null)
+                    playerBack.DesiredLatency = desiredLatency;
+                /*if (player != null)
+                    player.DesiredLatency = desiredLatency;*/
             }
         }
         private int desiredLatency = 100;
@@ -37,6 +39,10 @@ namespace VirtualLoopPedal
 
         WaveOutEvent player;
         AudioFileReader reader;
+        LoopStream loop;
+
+        WaveOutEvent playerBack; // to play back while recording
+
 
         bool closing = false;
 
@@ -50,11 +56,20 @@ namespace VirtualLoopPedal
 
             player = new WaveOutEvent();
             player.PlaybackStopped += Player_PlaybackStopped;
-            player.DesiredLatency = DesiredLatency;
+            //player.DesiredLatency = DesiredLatency;
+
+            playerBack = new WaveOutEvent();
+            playerBack.PlaybackStopped += PlayerBack_PlaybackStopped;
+            playerBack.DesiredLatency = DesiredLatency;
 
             bufferedWaveProvider = new BufferedWaveProvider(recorder.WaveFormat);
 
             //Directory.CreateDirectory("data\\" + this.Name);
+        }
+
+        private void PlayerBack_PlaybackStopped(object sender, StoppedEventArgs e)
+        {
+            
         }
 
         private void Player_PlaybackStopped(object sender, StoppedEventArgs e)
@@ -102,8 +117,8 @@ namespace VirtualLoopPedal
 
             if (checkBox_playBack.Checked)
             {
-                player.Init(bufferedWaveProvider);
-                player.Play();
+                playerBack.Init(bufferedWaveProvider);
+                playerBack.Play();
             }
 
             writer = new WaveFileWriter("data\\" + this.Name + "\\" + FileName, recorder.WaveFormat);
@@ -117,8 +132,9 @@ namespace VirtualLoopPedal
             if (File.Exists("data\\" + this.Name + "\\" + FileName))
             {
                 reader = new AudioFileReader("data\\" + this.Name + "\\" + FileName);
-                reader.Volume = trackBar_Volume.Value / 100f; 
-                player.Init(reader);
+                reader.Volume = trackBar_Volume.Value / 100f;
+                loop = new LoopStream(reader);
+                player.Init(loop);
                 player.Play();
                 button_play.Enabled = false;
                 button_StopPlayback.Enabled = true;
@@ -133,7 +149,7 @@ namespace VirtualLoopPedal
         {
             recorder.StopRecording();
             if (playBackWhileRecording)
-                player.Stop();
+                playerBack.Stop();
             button_record.Enabled = true;
             button_StopRecording.Enabled = false;
             button_play.Enabled = true;
