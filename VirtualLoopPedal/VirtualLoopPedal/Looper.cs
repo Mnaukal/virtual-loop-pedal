@@ -60,10 +60,10 @@ namespace VirtualLoopPedal
         WaveOutEvent player;
         AudioFileReader reader;
 
-        enum State { Waiting, WantToRecord, ReadyToRecord, Recording, ReadyToPlay, Playing };
+        enum LooperState { Waiting, WantToRecord, ReadyToRecord, Recording, ReadyToPlay, Playing };
 
-        State state_value = State.Waiting;
-        State state
+        LooperState state_value = LooperState.Waiting;
+        LooperState State
         {
             get { return state_value; }
             set
@@ -72,21 +72,33 @@ namespace VirtualLoopPedal
 
                 switch(value)
                 {
-                    case State.ReadyToRecord:
-                    case State.ReadyToPlay:
+                    case LooperState.ReadyToRecord:
+                    case LooperState.ReadyToPlay:
                         label_state.Text = "Waiting";
+                        ResetProgressBar(Color.Blue, parent.metronome.MetronomeInfo().BeatsInBar * Convert.ToInt32(numericUpDown_start.Value));
+                        coloredProgressBar_record.Value = 1;
                         break;
-                    case State.Recording:
+                    case LooperState.Recording:
                         label_state.Text = "Recording";
+                        ResetProgressBar(Color.Red, parent.metronome.MetronomeInfo().BeatsInBar * Convert.ToInt32(numericUpDown_length.Value));
+                        coloredProgressBar_record.Value = 1;
                         break;
-                    case State.Playing:
+                    case LooperState.Playing:
                         label_state.Text = "Playing";
+                        ResetProgressBar(Color.Green, parent.metronome.MetronomeInfo().BeatsInBar * Convert.ToInt32(numericUpDown_length.Value));
+                        coloredProgressBar_record.Value = 1;
+                        break;
+                    default:
+                        ResetProgressBar(Color.White, 1);
+                        label_state.Text = "";
                         break;
                 }
             }
         }
         int StartingBar; // starting bar of current recording / playing
-        
+
+        Pedal parent;
+
         public Looper()
         {
             InitializeComponent();
@@ -108,11 +120,16 @@ namespace VirtualLoopPedal
             WireClickOfChildren(this);
         }
 
+        public void SetParent(Pedal parent)
+        {
+            this.parent = parent;
+        }
+
         void WireClickOfChildren(Control parent)
         {
             foreach (Control control in parent.Controls)
             {
-                control.Click += control_Click;
+                control.Click += Control_Click;
                 if (control.HasChildren)
                     WireClickOfChildren(control);
             }
@@ -124,7 +141,7 @@ namespace VirtualLoopPedal
             groupBox1.Text = this.Name;
         }
 
-        private void control_Click(object sender, EventArgs e)
+        private void Control_Click(object sender, EventArgs e)
         {
             this.InvokeOnClick(this, e);
         }
@@ -136,16 +153,19 @@ namespace VirtualLoopPedal
 
         private void Player_PlaybackStopped(object sender, StoppedEventArgs e)
         {
-            //player.Dispose();
-            //player = null;
-            reader?.Dispose();
-            reader = null;
+            if (closing)
+            {
+                player.Dispose();
+                player = null;
+                reader?.Dispose();
+                reader = null;
+            }
 
-            button_play.Enabled = true; // TODO ??
-            button_StopPlayback.Enabled = false;
+            button_play.Enabled = true; 
+            //button_StopPlayback.Enabled = false;
 
-            if (state == State.WantToRecord)
-                state = State.ReadyToRecord;
+            if (State == LooperState.WantToRecord)
+                State = LooperState.ReadyToRecord;
         }
 
         private void Recorder_RecordingStopped(object sender, StoppedEventArgs e)
@@ -177,25 +197,15 @@ namespace VirtualLoopPedal
 
         private void button_record_Click(object sender, EventArgs e)
         {
-            if (state == State.Playing) // playing must finish before we can start recording
-                state = State.WantToRecord;
+            if (State == LooperState.Playing) // playing must finish before we can start recording
+                State = LooperState.WantToRecord;
             else
-                state = State.ReadyToRecord;
-
-            button_record.Enabled = false;
-            button_StopRecording.Enabled = true;
-            button_play.Enabled = false;
-            numericUpDown_length.Enabled = false;
-            numericUpDown_start.Enabled = false;
+                State = LooperState.ReadyToRecord;
         }
 
         private void button_play_Click(object sender, EventArgs e)
         {
-            state = State.ReadyToPlay;
-
-            button_play.Enabled = false;
-            button_StopPlayback.Enabled = true;
-            //button_record.Enabled = false;
+            State = LooperState.ReadyToPlay;
         }
 
         private void button_StopRecording_Click(object sender, EventArgs e)
@@ -227,7 +237,13 @@ namespace VirtualLoopPedal
 
         void StartRecording()
         {
-            state = State.Recording;
+            State = LooperState.Recording;
+
+            button_record.Enabled = false;
+            button_StopRecording.Enabled = true;
+            button_play.Enabled = false;
+            numericUpDown_length.Enabled = false;
+            numericUpDown_start.Enabled = false;
 
             playBackWhileRecording = checkBox_playBack.Checked;
             Directory.CreateDirectory("data\\" + this.Name);
@@ -244,28 +260,40 @@ namespace VirtualLoopPedal
 
         void StopRecording()
         {
-            state = State.Waiting; // TODO: option to automatically start playing
-
-            recorder.StopRecording();
-            if (playBackWhileRecording)
-                playerBack.Stop();
+            State = LooperState.Waiting; // TODO: option to automatically start playing
 
             button_record.Enabled = true;
             button_StopRecording.Enabled = false;
             button_play.Enabled = true;
             numericUpDown_length.Enabled = true;
             numericUpDown_start.Enabled = true;
+
+            recorder.StopRecording();
+            if (playBackWhileRecording)
+                playerBack.Stop();
+            reader?.Dispose();
+            reader = null;
         }
 
         void StartPlayback()
         {
-            state = State.Playing;
+            State = LooperState.Playing;
+
+            button_play.Enabled = false;
+            button_StopPlayback.Enabled = true;
+            numericUpDown_length.Enabled = false;
+            numericUpDown_start.Enabled = false;
 
             if (File.Exists("data\\" + this.Name + "\\" + FileName))
             {
-                reader = new AudioFileReader("data\\" + this.Name + "\\" + FileName);
-                reader.Volume = trackBar_Volume.Value / 100f;
-                player.Init(reader);
+                if (reader == null)
+                {
+                    reader = new AudioFileReader("data\\" + this.Name + "\\" + FileName);
+                    reader.Volume = trackBar_Volume.Value / 100f;
+                    player.Init(reader);
+                }
+                else
+                    reader.Position = 0;
                 player.Play();
             }
             else
@@ -276,7 +304,12 @@ namespace VirtualLoopPedal
 
         void StopPlayback()
         {
-            state = State.Waiting;
+            State = LooperState.Waiting;
+
+            button_play.Enabled = true;
+            button_StopPlayback.Enabled = false;
+            numericUpDown_length.Enabled = true;
+            numericUpDown_start.Enabled = true;
 
             player?.Stop();
         }
@@ -287,45 +320,44 @@ namespace VirtualLoopPedal
         public void Metronome_Bar(object sender, MetronomeEventArgs e) 
         {
             if(selected)
-                Console.WriteLine(state + " " + e.BarNumber);
+                Console.WriteLine(State + " " + e.BarNumber);
 
             int length = Convert.ToInt32(numericUpDown_length.Value);
             int start = Convert.ToInt32(numericUpDown_start.Value);
 
-            switch (state) // TODO if/else -> multiple changes per bar
+            if (State == LooperState.ReadyToRecord)
             {
-                case State.ReadyToRecord:
-                    if(e.BarNumber % start == 0)
-                    {
-                        StartingBar = e.BarNumber;
-                        StartRecording();
-                        coloredProgressBar_record.Value = 1;
-                    }
-                    break;
-                case State.ReadyToPlay:
-                    if (e.BarNumber % start == 0)
-                    {
-                        StartingBar = e.BarNumber;
-                        StartPlayback();
-                        coloredProgressBar_record.Value = 1;
-                    }
-                    break;
-                case State.Recording:
-                    if (e.BarNumber >= StartingBar + length)
-                    {
-                        StopRecording();
-                        coloredProgressBar_record.Value = 0;
-                    }
-                    break;
-                case State.Playing:
-                    if (e.BarNumber >= StartingBar + length)
-                    {
-                        StopPlayback();
-                        StartingBar = e.BarNumber;
-                        StartPlayback();
-                        coloredProgressBar_record.Value = 1;
-                    }
-                    break;
+                if (e.BarNumber % start == 0)
+                {
+                    StartingBar = e.BarNumber;
+                    StartRecording();
+                    //coloredProgressBar_record.Value = 1;
+                }
+            }
+            if (State == LooperState.ReadyToPlay)
+            {
+                if (e.BarNumber % start == 0)
+                {
+                    StartingBar = e.BarNumber;
+                    StartPlayback();
+                    //coloredProgressBar_record.Value = 1;
+                }
+            }
+            if (State == LooperState.Recording) {
+                if (e.BarNumber >= StartingBar + length)
+                {
+                    StopRecording();
+                    //coloredProgressBar_record.Value = 0;
+                }
+            }
+            if (State == LooperState.Playing) {
+                if (e.BarNumber >= StartingBar + length)
+                {
+                    StopPlayback();
+                    StartingBar = e.BarNumber;
+                    StartPlayback();
+                    //coloredProgressBar_record.Value = 1;
+                }
             }
         }
 
@@ -338,29 +370,25 @@ namespace VirtualLoopPedal
             int currentBeat = e.BarNumber * e.BeatsInBar + e.BeatNumber;
             int startBeats = start * e.BeatsInBar;
 
-            switch (state)
+            switch (State)
             {
-                case State.ReadyToRecord:
-                    coloredProgressBar_record.Maximum = startBeats;
+                case LooperState.ReadyToRecord:
+                case LooperState.ReadyToPlay:
                     coloredProgressBar_record.Value = (currentBeat % startBeats) + 1;
-                    coloredProgressBar_record.ForeColor = Color.Blue;
-                    break;
-                case State.ReadyToPlay:
-                    coloredProgressBar_record.Maximum = startBeats;
                     coloredProgressBar_record.Value = (currentBeat % startBeats) + 1;
-                    coloredProgressBar_record.ForeColor = Color.Blue;
                     break;
-                case State.Recording:
-                    coloredProgressBar_record.Maximum = lengthBeats;
+                case LooperState.Recording:
+                case LooperState.Playing:
                     coloredProgressBar_record.Value = (((e.BarNumber - StartingBar) * e.BeatsInBar + e.BeatNumber) % lengthBeats) + 1;
-                    coloredProgressBar_record.ForeColor = Color.Red;
-                    break;
-                case State.Playing:
-                    coloredProgressBar_record.Maximum = lengthBeats;
-                    coloredProgressBar_record.Value = (((e.BarNumber - StartingBar) * e.BeatsInBar + e.BeatNumber) % lengthBeats) + 1;
-                    coloredProgressBar_record.ForeColor = Color.Green;
                     break;
             }
+        }
+
+        void ResetProgressBar(Color color, int maximum)
+        {
+            coloredProgressBar_record.Maximum = maximum;
+            coloredProgressBar_record.Value = 0;
+            coloredProgressBar_record.ForeColor = color;
         }
     }
 }

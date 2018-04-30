@@ -39,12 +39,12 @@
             this.label_bar = new System.Windows.Forms.Label();
             this.checkBox_metronome = new System.Windows.Forms.CheckBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.button_addLooper = new System.Windows.Forms.Button();
-            this.button_deleteLooper = new System.Windows.Forms.Button();
             this.looper1 = new VirtualLoopPedal.Looper();
             this.looper2 = new VirtualLoopPedal.Looper();
             this.looper3 = new VirtualLoopPedal.Looper();
             this.looper4 = new VirtualLoopPedal.Looper();
+            this.button_addLooper = new System.Windows.Forms.Button();
+            this.button_deleteLooper = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_metronomeMeasuse)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_metronomeTempo)).BeginInit();
             this.groupBox_metronome.SuspendLayout();
@@ -54,9 +54,10 @@
             // button_metronomeStart
             // 
             this.button_metronomeStart.BackColor = System.Drawing.Color.LightGreen;
-            this.button_metronomeStart.Location = new System.Drawing.Point(102, 16);
+            this.button_metronomeStart.Location = new System.Drawing.Point(136, 20);
+            this.button_metronomeStart.Margin = new System.Windows.Forms.Padding(4);
             this.button_metronomeStart.Name = "button_metronomeStart";
-            this.button_metronomeStart.Size = new System.Drawing.Size(85, 49);
+            this.button_metronomeStart.Size = new System.Drawing.Size(113, 60);
             this.button_metronomeStart.TabIndex = 0;
             this.button_metronomeStart.Text = "Start";
             this.button_metronomeStart.UseVisualStyleBackColor = false;
@@ -65,9 +66,10 @@
             // button_metronomeStop
             // 
             this.button_metronomeStop.BackColor = System.Drawing.Color.Crimson;
-            this.button_metronomeStop.Location = new System.Drawing.Point(193, 16);
+            this.button_metronomeStop.Location = new System.Drawing.Point(257, 20);
+            this.button_metronomeStop.Margin = new System.Windows.Forms.Padding(4);
             this.button_metronomeStop.Name = "button_metronomeStop";
-            this.button_metronomeStop.Size = new System.Drawing.Size(85, 49);
+            this.button_metronomeStop.Size = new System.Drawing.Size(113, 60);
             this.button_metronomeStop.TabIndex = 0;
             this.button_metronomeStop.Text = "Stop";
             this.button_metronomeStop.UseVisualStyleBackColor = false;
@@ -75,7 +77,8 @@
             // 
             // numericUpDown_metronomeMeasuse
             // 
-            this.numericUpDown_metronomeMeasuse.Location = new System.Drawing.Point(60, 19);
+            this.numericUpDown_metronomeMeasuse.Location = new System.Drawing.Point(80, 23);
+            this.numericUpDown_metronomeMeasuse.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDown_metronomeMeasuse.Maximum = new decimal(new int[] {
             12,
             0,
@@ -87,7 +90,7 @@
             0,
             0});
             this.numericUpDown_metronomeMeasuse.Name = "numericUpDown_metronomeMeasuse";
-            this.numericUpDown_metronomeMeasuse.Size = new System.Drawing.Size(36, 20);
+            this.numericUpDown_metronomeMeasuse.Size = new System.Drawing.Size(48, 22);
             this.numericUpDown_metronomeMeasuse.TabIndex = 1;
             this.numericUpDown_metronomeMeasuse.Value = new decimal(new int[] {
             4,
@@ -103,7 +106,8 @@
             0,
             0,
             0});
-            this.numericUpDown_metronomeTempo.Location = new System.Drawing.Point(52, 45);
+            this.numericUpDown_metronomeTempo.Location = new System.Drawing.Point(69, 55);
+            this.numericUpDown_metronomeTempo.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDown_metronomeTempo.Maximum = new decimal(new int[] {
             240,
             0,
@@ -115,7 +119,7 @@
             0,
             0});
             this.numericUpDown_metronomeTempo.Name = "numericUpDown_metronomeTempo";
-            this.numericUpDown_metronomeTempo.Size = new System.Drawing.Size(44, 20);
+            this.numericUpDown_metronomeTempo.Size = new System.Drawing.Size(59, 22);
             this.numericUpDown_metronomeTempo.TabIndex = 3;
             this.numericUpDown_metronomeTempo.Value = new decimal(new int[] {
             120,
@@ -127,18 +131,20 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 47);
+            this.label2.Location = new System.Drawing.Point(8, 58);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(40, 13);
+            this.label2.Size = new System.Drawing.Size(52, 17);
             this.label2.TabIndex = 4;
             this.label2.Text = "Tempo";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 21);
+            this.label3.Location = new System.Drawing.Point(8, 26);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(48, 13);
+            this.label3.Size = new System.Drawing.Size(63, 17);
             this.label3.TabIndex = 4;
             this.label3.Text = "Measure";
             // 
@@ -154,9 +160,11 @@
             this.groupBox_metronome.Controls.Add(this.button_metronomeStart);
             this.groupBox_metronome.Controls.Add(this.label2);
             this.groupBox_metronome.Controls.Add(this.numericUpDown_metronomeMeasuse);
-            this.groupBox_metronome.Location = new System.Drawing.Point(427, 12);
+            this.groupBox_metronome.Location = new System.Drawing.Point(565, 15);
+            this.groupBox_metronome.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox_metronome.Name = "groupBox_metronome";
-            this.groupBox_metronome.Size = new System.Drawing.Size(482, 71);
+            this.groupBox_metronome.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox_metronome.Size = new System.Drawing.Size(643, 87);
             this.groupBox_metronome.TabIndex = 5;
             this.groupBox_metronome.TabStop = false;
             this.groupBox_metronome.Text = "Metronome";
@@ -165,9 +173,10 @@
             // 
             this.label_beat.AutoSize = true;
             this.label_beat.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label_beat.Location = new System.Drawing.Point(284, 45);
+            this.label_beat.Location = new System.Drawing.Point(379, 55);
+            this.label_beat.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_beat.Name = "label_beat";
-            this.label_beat.Size = new System.Drawing.Size(17, 17);
+            this.label_beat.Size = new System.Drawing.Size(19, 20);
             this.label_beat.TabIndex = 6;
             this.label_beat.Text = "0";
             this.label_beat.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -176,9 +185,10 @@
             // 
             this.label_bar.AutoSize = true;
             this.label_bar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label_bar.Location = new System.Drawing.Point(284, 19);
+            this.label_bar.Location = new System.Drawing.Point(379, 23);
+            this.label_bar.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_bar.Name = "label_bar";
-            this.label_bar.Size = new System.Drawing.Size(17, 17);
+            this.label_bar.Size = new System.Drawing.Size(19, 20);
             this.label_bar.TabIndex = 6;
             this.label_bar.Text = "0";
             this.label_bar.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -188,9 +198,10 @@
             this.checkBox_metronome.AutoSize = true;
             this.checkBox_metronome.Checked = true;
             this.checkBox_metronome.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_metronome.Location = new System.Drawing.Point(330, 33);
+            this.checkBox_metronome.Location = new System.Drawing.Point(440, 41);
+            this.checkBox_metronome.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox_metronome.Name = "checkBox_metronome";
-            this.checkBox_metronome.Size = new System.Drawing.Size(146, 17);
+            this.checkBox_metronome.Size = new System.Drawing.Size(189, 21);
             this.checkBox_metronome.TabIndex = 5;
             this.checkBox_metronome.Text = "Enable metronome sound";
             this.checkBox_metronome.UseVisualStyleBackColor = true;
@@ -205,16 +216,66 @@
             this.flowLayoutPanel1.Controls.Add(this.looper2);
             this.flowLayoutPanel1.Controls.Add(this.looper3);
             this.flowLayoutPanel1.Controls.Add(this.looper4);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 89);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 110);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1233, 380);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1635, 468);
             this.flowLayoutPanel1.TabIndex = 7;
+            // 
+            // looper1
+            // 
+            this.looper1.DesiredLatency = 100;
+            this.looper1.Location = new System.Drawing.Point(13, 12);
+            this.looper1.Margin = new System.Windows.Forms.Padding(13, 12, 13, 12);
+            this.looper1.MaximumSize = new System.Drawing.Size(381, 389);
+            this.looper1.MinimumSize = new System.Drawing.Size(381, 389);
+            this.looper1.Name = "looper1";
+            this.looper1.Selected = false;
+            this.looper1.Size = new System.Drawing.Size(381, 389);
+            this.looper1.TabIndex = 0;
+            // 
+            // looper2
+            // 
+            this.looper2.DesiredLatency = 100;
+            this.looper2.Location = new System.Drawing.Point(420, 12);
+            this.looper2.Margin = new System.Windows.Forms.Padding(13, 12, 13, 12);
+            this.looper2.MaximumSize = new System.Drawing.Size(381, 389);
+            this.looper2.MinimumSize = new System.Drawing.Size(381, 389);
+            this.looper2.Name = "looper2";
+            this.looper2.Selected = false;
+            this.looper2.Size = new System.Drawing.Size(381, 389);
+            this.looper2.TabIndex = 1;
+            // 
+            // looper3
+            // 
+            this.looper3.DesiredLatency = 100;
+            this.looper3.Location = new System.Drawing.Point(827, 12);
+            this.looper3.Margin = new System.Windows.Forms.Padding(13, 12, 13, 12);
+            this.looper3.MaximumSize = new System.Drawing.Size(381, 389);
+            this.looper3.MinimumSize = new System.Drawing.Size(381, 389);
+            this.looper3.Name = "looper3";
+            this.looper3.Selected = false;
+            this.looper3.Size = new System.Drawing.Size(381, 389);
+            this.looper3.TabIndex = 2;
+            // 
+            // looper4
+            // 
+            this.looper4.DesiredLatency = 100;
+            this.looper4.Location = new System.Drawing.Point(1234, 12);
+            this.looper4.Margin = new System.Windows.Forms.Padding(13, 12, 13, 12);
+            this.looper4.MaximumSize = new System.Drawing.Size(381, 389);
+            this.looper4.MinimumSize = new System.Drawing.Size(381, 389);
+            this.looper4.Name = "looper4";
+            this.looper4.Selected = false;
+            this.looper4.Size = new System.Drawing.Size(381, 389);
+            this.looper4.TabIndex = 3;
             // 
             // button_addLooper
             // 
-            this.button_addLooper.Location = new System.Drawing.Point(12, 16);
+            this.button_addLooper.Location = new System.Drawing.Point(16, 20);
+            this.button_addLooper.Margin = new System.Windows.Forms.Padding(4);
             this.button_addLooper.Name = "button_addLooper";
-            this.button_addLooper.Size = new System.Drawing.Size(98, 26);
+            this.button_addLooper.Size = new System.Drawing.Size(131, 32);
             this.button_addLooper.TabIndex = 8;
             this.button_addLooper.Text = "Add Looper";
             this.button_addLooper.UseVisualStyleBackColor = true;
@@ -222,60 +283,26 @@
             // 
             // button_deleteLooper
             // 
-            this.button_deleteLooper.Location = new System.Drawing.Point(12, 48);
+            this.button_deleteLooper.Location = new System.Drawing.Point(16, 59);
+            this.button_deleteLooper.Margin = new System.Windows.Forms.Padding(4);
             this.button_deleteLooper.Name = "button_deleteLooper";
-            this.button_deleteLooper.Size = new System.Drawing.Size(98, 26);
+            this.button_deleteLooper.Size = new System.Drawing.Size(131, 32);
             this.button_deleteLooper.TabIndex = 8;
             this.button_deleteLooper.Text = "Remove selected";
             this.button_deleteLooper.UseVisualStyleBackColor = true;
             this.button_deleteLooper.Click += new System.EventHandler(this.button_deleteLooper_Click);
             // 
-            // looper1
-            // 
-            this.looper1.DesiredLatency = 100;
-            this.looper1.Location = new System.Drawing.Point(10, 10);
-            this.looper1.Margin = new System.Windows.Forms.Padding(10);
-            this.looper1.Name = "looper1";
-            this.looper1.Selected = false;
-            this.looper1.TabIndex = 0;
-            // 
-            // looper2
-            // 
-            this.looper2.DesiredLatency = 100;
-            this.looper2.Location = new System.Drawing.Point(316, 10);
-            this.looper2.Margin = new System.Windows.Forms.Padding(10);
-            this.looper2.Name = "looper2";
-            this.looper2.Selected = false;
-            this.looper2.TabIndex = 1;
-            // 
-            // looper3
-            // 
-            this.looper3.DesiredLatency = 100;
-            this.looper3.Location = new System.Drawing.Point(622, 10);
-            this.looper3.Margin = new System.Windows.Forms.Padding(10);
-            this.looper3.Name = "looper3";
-            this.looper3.Selected = false;
-            this.looper3.TabIndex = 2;
-            // 
-            // looper4
-            // 
-            this.looper4.DesiredLatency = 100;
-            this.looper4.Location = new System.Drawing.Point(928, 10);
-            this.looper4.Margin = new System.Windows.Forms.Padding(10);
-            this.looper4.Name = "looper4";
-            this.looper4.Selected = false;
-            this.looper4.TabIndex = 3;
-            // 
             // Pedal
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1232, 467);
+            this.ClientSize = new System.Drawing.Size(1634, 575);
             this.Controls.Add(this.button_deleteLooper);
             this.Controls.Add(this.button_addLooper);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.groupBox_metronome);
-            this.MinimumSize = new System.Drawing.Size(634, 436);
+            this.Margin = new System.Windows.Forms.Padding(4);
+            this.MinimumSize = new System.Drawing.Size(839, 526);
             this.Name = "Pedal";
             this.Text = "Virtual Loop Pedal";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_metronomeMeasuse)).EndInit();

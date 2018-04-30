@@ -16,6 +16,7 @@ namespace VirtualLoopPedal
         public ColoredProgressBar()
         {
             this.SetStyle(ControlStyles.UserPaint, true);
+            this.DoubleBuffered = true;
         }
 
         protected override void OnPaint(PaintEventArgs e)

@@ -14,7 +14,7 @@ namespace VirtualLoopPedal
 {
     public partial class Pedal : Form
     {
-        Metronome metronome;
+        public Metronome metronome;
         List<Looper> loopers;
         Looper selectedLooper = null;
         int looperCount = 0;
@@ -39,6 +39,7 @@ namespace VirtualLoopPedal
             loopers.Add(looper);
             looper.SetName("Looper " + ++looperCount);
             looper.Click += looper_Click;
+            looper.SetParent(this);
             metronome.Bar += looper.Metronome_Bar;
             metronome.Beat += looper.Metronome_Beat;
         }
@@ -110,7 +111,7 @@ namespace VirtualLoopPedal
         }
     }
 
-    class Metronome
+    public class Metronome
     {
         Timer timer;
         bool running;
@@ -163,22 +164,24 @@ namespace VirtualLoopPedal
             Other.Volume = 1;
         }
 
+        public MetronomeEventArgs MetronomeInfo()
+        {
+            return new MetronomeEventArgs()
+            {
+                BeatNumber = currentBeat,
+                BarNumber = currentBar,
+                BeatsInBar = BPB,
+            };
+        }
+
         protected virtual void OnBeat(MetronomeEventArgs e)
         {
-            EventHandler< MetronomeEventArgs> handler = Beat;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            Beat?.Invoke(this, e);
         }
 
         protected virtual void OnBar(MetronomeEventArgs e)
         {
-            EventHandler<MetronomeEventArgs> handler = Bar;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            Bar?.Invoke(this, e);
         }
 
         public void Start()
