@@ -70,7 +70,7 @@
             this.button_metronomeStop.Margin = new System.Windows.Forms.Padding(4);
             this.button_metronomeStop.Name = "button_metronomeStop";
             this.button_metronomeStop.Size = new System.Drawing.Size(113, 60);
-            this.button_metronomeStop.TabIndex = 0;
+            this.button_metronomeStop.TabIndex = 1;
             this.button_metronomeStop.Text = "Stop";
             this.button_metronomeStop.UseVisualStyleBackColor = false;
             this.button_metronomeStop.Click += new System.EventHandler(this.button_metronomeStop_Click);
@@ -91,7 +91,7 @@
             0});
             this.numericUpDown_metronomeMeasuse.Name = "numericUpDown_metronomeMeasuse";
             this.numericUpDown_metronomeMeasuse.Size = new System.Drawing.Size(48, 22);
-            this.numericUpDown_metronomeMeasuse.TabIndex = 1;
+            this.numericUpDown_metronomeMeasuse.TabIndex = 3;
             this.numericUpDown_metronomeMeasuse.Value = new decimal(new int[] {
             4,
             0,
@@ -120,7 +120,7 @@
             0});
             this.numericUpDown_metronomeTempo.Name = "numericUpDown_metronomeTempo";
             this.numericUpDown_metronomeTempo.Size = new System.Drawing.Size(59, 22);
-            this.numericUpDown_metronomeTempo.TabIndex = 3;
+            this.numericUpDown_metronomeTempo.TabIndex = 4;
             this.numericUpDown_metronomeTempo.Value = new decimal(new int[] {
             120,
             0,
@@ -202,7 +202,7 @@
             this.checkBox_metronome.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox_metronome.Name = "checkBox_metronome";
             this.checkBox_metronome.Size = new System.Drawing.Size(189, 21);
-            this.checkBox_metronome.TabIndex = 5;
+            this.checkBox_metronome.TabIndex = 2;
             this.checkBox_metronome.Text = "Enable metronome sound";
             this.checkBox_metronome.UseVisualStyleBackColor = true;
             this.checkBox_metronome.CheckedChanged += new System.EventHandler(this.checkBox_metronome_CheckedChanged);
@@ -232,7 +232,7 @@
             this.looper1.Name = "looper1";
             this.looper1.Selected = false;
             this.looper1.Size = new System.Drawing.Size(381, 389);
-            this.looper1.TabIndex = 0;
+            this.looper1.TabIndex = 5;
             // 
             // looper2
             // 
@@ -244,7 +244,7 @@
             this.looper2.Name = "looper2";
             this.looper2.Selected = false;
             this.looper2.Size = new System.Drawing.Size(381, 389);
-            this.looper2.TabIndex = 1;
+            this.looper2.TabIndex = 6;
             // 
             // looper3
             // 
@@ -256,7 +256,7 @@
             this.looper3.Name = "looper3";
             this.looper3.Selected = false;
             this.looper3.Size = new System.Drawing.Size(381, 389);
-            this.looper3.TabIndex = 2;
+            this.looper3.TabIndex = 7;
             // 
             // looper4
             // 
@@ -268,7 +268,7 @@
             this.looper4.Name = "looper4";
             this.looper4.Selected = false;
             this.looper4.Size = new System.Drawing.Size(381, 389);
-            this.looper4.TabIndex = 3;
+            this.looper4.TabIndex = 8;
             // 
             // button_addLooper
             // 
@@ -276,7 +276,7 @@
             this.button_addLooper.Margin = new System.Windows.Forms.Padding(4);
             this.button_addLooper.Name = "button_addLooper";
             this.button_addLooper.Size = new System.Drawing.Size(131, 32);
-            this.button_addLooper.TabIndex = 8;
+            this.button_addLooper.TabIndex = 9;
             this.button_addLooper.Text = "Add Looper";
             this.button_addLooper.UseVisualStyleBackColor = true;
             this.button_addLooper.Click += new System.EventHandler(this.button_addLooper_Click);
@@ -287,7 +287,7 @@
             this.button_deleteLooper.Margin = new System.Windows.Forms.Padding(4);
             this.button_deleteLooper.Name = "button_deleteLooper";
             this.button_deleteLooper.Size = new System.Drawing.Size(131, 32);
-            this.button_deleteLooper.TabIndex = 8;
+            this.button_deleteLooper.TabIndex = 10;
             this.button_deleteLooper.Text = "Remove selected";
             this.button_deleteLooper.UseVisualStyleBackColor = true;
             this.button_deleteLooper.Click += new System.EventHandler(this.button_deleteLooper_Click);
@@ -301,10 +301,12 @@
             this.Controls.Add(this.button_addLooper);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.groupBox_metronome);
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimumSize = new System.Drawing.Size(839, 526);
             this.Name = "Pedal";
             this.Text = "Virtual Loop Pedal";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Pedal_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_metronomeMeasuse)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_metronomeTempo)).EndInit();
             this.groupBox_metronome.ResumeLayout(false);

@@ -42,6 +42,7 @@ namespace VirtualLoopPedal
             looper.SetParent(this);
             metronome.Bar += looper.Metronome_Bar;
             metronome.Beat += looper.Metronome_Beat;
+            metronome.Stopped += looper.Metronome_Stop;
         }
 
         private void Metronome_Beat(object sender, MetronomeEventArgs e)
@@ -109,145 +110,55 @@ namespace VirtualLoopPedal
             selectedLooper?.Dispose();
             selectedLooper = null;
         }
-    }
 
-    public class Metronome
-    {
-        Timer timer;
-        bool running;
-        int BPM; // beats per minute
-        int BPB; // beats per bar
-        int currentBeat; // current beat in bar
-        int currentBar; // number of bars since start of metronome
-
-        ISampleProvider first, other; // beats in bar
-        WaveOutEvent First, Other;
-
-        public bool MakeSound = true;
-
-        /// <summary>
-        /// Fires on every beat
-        /// </summary>
-        public event EventHandler<MetronomeEventArgs> Beat;
-        /// <summary>
-        /// Fires on start of each bar (measure)
-        /// </summary>
-        public event EventHandler<MetronomeEventArgs> Bar;
-        
-        public Metronome(int Tempo, int BeatsPerBar)
+        private void Pedal_KeyDown(object sender, KeyEventArgs e)
         {
-            timer = new Timer();
-            timer.Tick += Timer_Tick;
-
-            BPM = Tempo;
-            BPB = BeatsPerBar;
-
-            first = new SignalGenerator()
+            switch (e.KeyCode)
             {
-                Gain = 0.2,
-                Frequency = 660,
-                Type = SignalGeneratorType.Sin
-            };//.Take(TimeSpan.FromMilliseconds(100));
-
-            other = new SignalGenerator()
-            {
-                Gain = 0.2,
-                Frequency = 440,
-                Type = SignalGeneratorType.Sin
-            };//.Take(TimeSpan.FromMilliseconds(100));
-
-            First = new WaveOutEvent();
-            First.Init(first);
-            First.Volume = 1;
-            Other = new WaveOutEvent();
-            Other.Init(other);
-            Other.Volume = 1;
-        }
-
-        public MetronomeEventArgs MetronomeInfo()
-        {
-            return new MetronomeEventArgs()
-            {
-                BeatNumber = currentBeat,
-                BarNumber = currentBar,
-                BeatsInBar = BPB,
-            };
-        }
-
-        protected virtual void OnBeat(MetronomeEventArgs e)
-        {
-            Beat?.Invoke(this, e);
-        }
-
-        protected virtual void OnBar(MetronomeEventArgs e)
-        {
-            Bar?.Invoke(this, e);
-        }
-
-        public void Start()
-        {
-            currentBeat = 0;
-            currentBar = 1;
-            timer.Interval = 60000 / BPM;
-            timer.Start();
-            running = true;
-        }
-
-        public void ChangeTempo(int Tempo)
-        {
-            BPM = Tempo;
-            if(running)
-                Start();
-        }
-
-        public void ChangeBeatsPerBar(int BeatsPerBar)
-        {
-            BPB = BeatsPerBar;
-            if (running)
-                Start();
-        }
-
-        public void Stop()
-        {
-            timer.Stop();
-            running = false;
-        }
-
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            //Console.WriteLine(currentBeat);
-
-            OnBeat(new MetronomeEventArgs() { BeatNumber = currentBeat, BarNumber = currentBar, BeatsInBar = BPB } ); // maybe move after OnBar
-
-            if (MakeSound)
-            {
-                if (currentBeat == 0)
-                {
-                    First.Play();
-                    OnBar(new MetronomeEventArgs() { BarNumber = currentBar });
-                }
-                else
-                    Other.Play();
-
-                Task.Delay(100).ContinueWith(t =>
-                {
-                    First.Pause();
-                    Other.Pause();
-                });
+                case Keys.NumPad1:
+                case Keys.D1:
+                    looper_Click(loopers[0], new EventArgs());
+                    break;
+                case Keys.NumPad2:
+                case Keys.D2:
+                    looper_Click(loopers[1], new EventArgs());
+                    break;
+                case Keys.NumPad3:
+                case Keys.D3:
+                    looper_Click(loopers[2], new EventArgs());
+                    break;
+                case Keys.NumPad4:
+                case Keys.D4:
+                    looper_Click(loopers[3], new EventArgs());
+                    break;
+                case Keys.Add:
+                    // TODO: next looper
+                    break;
+                case Keys.Subtract:
+                    // TODO: previous looper
+                    break;
+                case Keys.Divide:
+                case Keys.M:
+                case Keys.S:
+                    metronome.Start();
+                    break;
+                case Keys.Multiply:
+                case Keys.N:
+                case Keys.D:
+                    metronome.Stop();
+                        break;
+                case Keys.Delete:
+                case Keys.R:
+                case Keys.Decimal:
+                    selectedLooper?.RecordOrStop();
+                    break;
+                case Keys.Enter:
+                case Keys.NumPad0:
+                case Keys.Space:
+                    selectedLooper?.PlayOrPause();
+                    break;
             }
-
-            currentBeat++;
-            if (currentBeat >= BPB)
-            {
-                currentBeat = 0;
-                currentBar++;
-            }
+            e.SuppressKeyPress = true;
         }
     }
-
-    public class MetronomeEventArgs : EventArgs
-    {
-        public int BarNumber, BeatNumber, BeatsInBar;
-    }
-
 }

@@ -38,13 +38,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.checkBox_playBack = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.coloredProgressBar_record = new VirtualLoopPedal.ColoredProgressBar();
             this.label_state = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.numericUpDown_start = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_length = new System.Windows.Forms.NumericUpDown();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.coloredProgressBar_record = new VirtualLoopPedal.ColoredProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Volume)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_start)).BeginInit();
@@ -53,9 +53,10 @@
             // 
             // button_record
             // 
-            this.button_record.Location = new System.Drawing.Point(9, 101);
+            this.button_record.Location = new System.Drawing.Point(12, 124);
+            this.button_record.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button_record.Name = "button_record";
-            this.button_record.Size = new System.Drawing.Size(100, 50);
+            this.button_record.Size = new System.Drawing.Size(133, 62);
             this.button_record.TabIndex = 0;
             this.button_record.Text = "Record";
             this.button_record.UseVisualStyleBackColor = true;
@@ -63,9 +64,10 @@
             // 
             // button_play
             // 
-            this.button_play.Location = new System.Drawing.Point(9, 198);
+            this.button_play.Location = new System.Drawing.Point(12, 244);
+            this.button_play.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button_play.Name = "button_play";
-            this.button_play.Size = new System.Drawing.Size(100, 50);
+            this.button_play.Size = new System.Drawing.Size(133, 62);
             this.button_play.TabIndex = 1;
             this.button_play.Text = "Play";
             this.button_play.UseVisualStyleBackColor = true;
@@ -74,9 +76,10 @@
             // button_StopRecording
             // 
             this.button_StopRecording.Enabled = false;
-            this.button_StopRecording.Location = new System.Drawing.Point(114, 101);
+            this.button_StopRecording.Location = new System.Drawing.Point(152, 124);
+            this.button_StopRecording.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button_StopRecording.Name = "button_StopRecording";
-            this.button_StopRecording.Size = new System.Drawing.Size(100, 50);
+            this.button_StopRecording.Size = new System.Drawing.Size(133, 62);
             this.button_StopRecording.TabIndex = 2;
             this.button_StopRecording.Text = "Stop";
             this.button_StopRecording.UseVisualStyleBackColor = true;
@@ -85,9 +88,10 @@
             // button_StopPlayback
             // 
             this.button_StopPlayback.Enabled = false;
-            this.button_StopPlayback.Location = new System.Drawing.Point(114, 198);
+            this.button_StopPlayback.Location = new System.Drawing.Point(152, 244);
+            this.button_StopPlayback.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button_StopPlayback.Name = "button_StopPlayback";
-            this.button_StopPlayback.Size = new System.Drawing.Size(100, 50);
+            this.button_StopPlayback.Size = new System.Drawing.Size(133, 62);
             this.button_StopPlayback.TabIndex = 3;
             this.button_StopPlayback.Text = "Pause";
             this.button_StopPlayback.UseVisualStyleBackColor = true;
@@ -96,12 +100,13 @@
             // trackBar_Volume
             // 
             this.trackBar_Volume.LargeChange = 10;
-            this.trackBar_Volume.Location = new System.Drawing.Point(228, 24);
+            this.trackBar_Volume.Location = new System.Drawing.Point(304, 30);
+            this.trackBar_Volume.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.trackBar_Volume.Maximum = 100;
             this.trackBar_Volume.Name = "trackBar_Volume";
             this.trackBar_Volume.Orientation = System.Windows.Forms.Orientation.Vertical;
             this.trackBar_Volume.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.trackBar_Volume.Size = new System.Drawing.Size(45, 208);
+            this.trackBar_Volume.Size = new System.Drawing.Size(53, 256);
             this.trackBar_Volume.TabIndex = 4;
             this.trackBar_Volume.TickFrequency = 10;
             this.trackBar_Volume.TickStyle = System.Windows.Forms.TickStyle.Both;
@@ -111,9 +116,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(226, 235);
+            this.label1.Location = new System.Drawing.Point(301, 289);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(42, 13);
+            this.label1.Size = new System.Drawing.Size(55, 17);
             this.label1.TabIndex = 5;
             this.label1.Text = "Volume";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -123,10 +129,12 @@
             this.checkBox_playBack.AutoSize = true;
             this.checkBox_playBack.Checked = true;
             this.checkBox_playBack.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_playBack.Location = new System.Drawing.Point(42, 157);
+            this.checkBox_playBack.Location = new System.Drawing.Point(56, 193);
+            this.checkBox_playBack.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBox_playBack.Name = "checkBox_playBack";
-            this.checkBox_playBack.Size = new System.Drawing.Size(147, 17);
+            this.checkBox_playBack.Size = new System.Drawing.Size(187, 21);
             this.checkBox_playBack.TabIndex = 6;
+            this.checkBox_playBack.TabStop = false;
             this.checkBox_playBack.Text = "Play back while recording";
             this.checkBox_playBack.UseVisualStyleBackColor = true;
             // 
@@ -148,25 +156,20 @@
             this.groupBox1.Controls.Add(this.button_StopPlayback);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(286, 316);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Size = new System.Drawing.Size(381, 389);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "groupBox1";
             // 
-            // coloredProgressBar_record
-            // 
-            this.coloredProgressBar_record.ForeColor = System.Drawing.Color.Lime;
-            this.coloredProgressBar_record.Location = new System.Drawing.Point(9, 261);
-            this.coloredProgressBar_record.Name = "coloredProgressBar_record";
-            this.coloredProgressBar_record.Size = new System.Drawing.Size(264, 23);
-            this.coloredProgressBar_record.TabIndex = 12;
-            // 
             // label_state
             // 
-            this.label_state.Location = new System.Drawing.Point(9, 287);
+            this.label_state.Location = new System.Drawing.Point(12, 353);
+            this.label_state.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_state.Name = "label_state";
-            this.label_state.Size = new System.Drawing.Size(264, 20);
+            this.label_state.Size = new System.Drawing.Size(352, 25);
             this.label_state.TabIndex = 11;
             this.label_state.Text = "ready";
             this.label_state.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -174,9 +177,10 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 56);
+            this.label3.Location = new System.Drawing.Point(8, 69);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(118, 13);
+            this.label3.Size = new System.Drawing.Size(161, 17);
             this.label3.TabIndex = 9;
             this.label3.Text = "Start on bar (multiple of)";
             this.toolTip1.SetToolTip(this.label3, resources.GetString("label3.ToolTip"));
@@ -184,15 +188,17 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 26);
+            this.label2.Location = new System.Drawing.Point(8, 32);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(128, 13);
+            this.label2.Size = new System.Drawing.Size(174, 17);
             this.label2.TabIndex = 9;
             this.label2.Text = "Length of recording (bars)";
             // 
             // numericUpDown_start
             // 
-            this.numericUpDown_start.Location = new System.Drawing.Point(140, 54);
+            this.numericUpDown_start.Location = new System.Drawing.Point(187, 66);
+            this.numericUpDown_start.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDown_start.Maximum = new decimal(new int[] {
             32,
             0,
@@ -204,17 +210,18 @@
             0,
             0});
             this.numericUpDown_start.Name = "numericUpDown_start";
-            this.numericUpDown_start.Size = new System.Drawing.Size(74, 20);
+            this.numericUpDown_start.Size = new System.Drawing.Size(99, 22);
             this.numericUpDown_start.TabIndex = 8;
             this.numericUpDown_start.Value = new decimal(new int[] {
-            1,
+            4,
             0,
             0,
             0});
             // 
             // numericUpDown_length
             // 
-            this.numericUpDown_length.Location = new System.Drawing.Point(140, 24);
+            this.numericUpDown_length.Location = new System.Drawing.Point(187, 30);
+            this.numericUpDown_length.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDown_length.Maximum = new decimal(new int[] {
             32,
             0,
@@ -226,24 +233,33 @@
             0,
             0});
             this.numericUpDown_length.Name = "numericUpDown_length";
-            this.numericUpDown_length.Size = new System.Drawing.Size(74, 20);
+            this.numericUpDown_length.Size = new System.Drawing.Size(99, 22);
             this.numericUpDown_length.TabIndex = 8;
             this.numericUpDown_length.Value = new decimal(new int[] {
-            1,
+            4,
             0,
             0,
             0});
             // 
+            // coloredProgressBar_record
+            // 
+            this.coloredProgressBar_record.ForeColor = System.Drawing.Color.Lime;
+            this.coloredProgressBar_record.Location = new System.Drawing.Point(12, 321);
+            this.coloredProgressBar_record.Margin = new System.Windows.Forms.Padding(4);
+            this.coloredProgressBar_record.Name = "coloredProgressBar_record";
+            this.coloredProgressBar_record.Size = new System.Drawing.Size(352, 28);
+            this.coloredProgressBar_record.TabIndex = 12;
+            // 
             // Looper
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox1);
-            this.Margin = new System.Windows.Forms.Padding(10);
-            this.MaximumSize = new System.Drawing.Size(286, 316);
-            this.MinimumSize = new System.Drawing.Size(286, 316);
+            this.Margin = new System.Windows.Forms.Padding(13, 12, 13, 12);
+            this.MaximumSize = new System.Drawing.Size(381, 389);
+            this.MinimumSize = new System.Drawing.Size(381, 389);
             this.Name = "Looper";
-            this.Size = new System.Drawing.Size(286, 316);
+            this.Size = new System.Drawing.Size(381, 389);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Volume)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

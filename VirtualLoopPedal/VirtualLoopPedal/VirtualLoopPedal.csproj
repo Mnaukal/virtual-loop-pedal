@@ -58,6 +58,7 @@
       <DependentUpon>Looper.cs</DependentUpon>
     </Compile>
     <Compile Include="LoopStream.cs" />
+    <Compile Include="Metronome.cs" />
     <Compile Include="Pedal.cs">
       <SubType>Form</SubType>
     </Compile>

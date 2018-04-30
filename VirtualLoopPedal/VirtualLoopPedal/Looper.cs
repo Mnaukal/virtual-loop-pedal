@@ -254,6 +254,8 @@ namespace VirtualLoopPedal
                 playerBack.Play();
             }
 
+            reader?.Dispose();
+            reader = null;
             writer = new WaveFileWriter("data\\" + this.Name + "\\" + FileName, recorder.WaveFormat); // TODO: can't record at the same time as playing (using same file)
             recorder.StartRecording();
         }
@@ -271,8 +273,6 @@ namespace VirtualLoopPedal
             recorder.StopRecording();
             if (playBackWhileRecording)
                 playerBack.Stop();
-            reader?.Dispose();
-            reader = null;
         }
 
         void StartPlayback()
@@ -298,6 +298,7 @@ namespace VirtualLoopPedal
             }
             else
             {
+                parent.metronome.EmergencyStop();
                 MessageBox.Show("You must first record the audio.", "File doesn't exist");
             }
         }
@@ -384,11 +385,37 @@ namespace VirtualLoopPedal
             }
         }
 
-        void ResetProgressBar(Color color, int maximum)
+        public void Metronome_Stop(object sender, MetronomeEventArgs e)
+        {
+            if (State == LooperState.Recording)
+                StopRecording();
+            else if (State == LooperState.Playing)
+                StopPlayback();
+        }
+
+            void ResetProgressBar(Color color, int maximum)
         {
             coloredProgressBar_record.Maximum = maximum;
             coloredProgressBar_record.Value = 0;
             coloredProgressBar_record.ForeColor = color;
+        }
+
+        public void PlayOrPause()
+        {
+            if (State == LooperState.Waiting)
+                State = LooperState.ReadyToPlay;
+            else if(State == LooperState.Playing)
+                StopPlayback();
+        }
+
+        public void RecordOrStop()
+        {
+            if (State == LooperState.Playing) // playing must finish before we can start recording
+                State = LooperState.WantToRecord;
+            else if (State == LooperState.Waiting)
+                State = LooperState.ReadyToRecord;
+            else if (State == LooperState.Recording)
+                StopRecording();
         }
     }
 }
