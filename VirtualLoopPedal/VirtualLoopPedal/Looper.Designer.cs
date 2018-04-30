@@ -38,6 +38,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.checkBox_playBack = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.coloredProgressBar_record = new VirtualLoopPedal.ColoredProgressBar();
+            this.label_state = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.numericUpDown_start = new System.Windows.Forms.NumericUpDown();
@@ -131,6 +133,8 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.SystemColors.Control;
+            this.groupBox1.Controls.Add(this.coloredProgressBar_record);
+            this.groupBox1.Controls.Add(this.label_state);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.numericUpDown_start);
@@ -145,10 +149,27 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(286, 286);
+            this.groupBox1.Size = new System.Drawing.Size(286, 316);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "groupBox1";
+            // 
+            // coloredProgressBar_record
+            // 
+            this.coloredProgressBar_record.ForeColor = System.Drawing.Color.Lime;
+            this.coloredProgressBar_record.Location = new System.Drawing.Point(9, 261);
+            this.coloredProgressBar_record.Name = "coloredProgressBar_record";
+            this.coloredProgressBar_record.Size = new System.Drawing.Size(264, 23);
+            this.coloredProgressBar_record.TabIndex = 12;
+            // 
+            // label_state
+            // 
+            this.label_state.Location = new System.Drawing.Point(9, 287);
+            this.label_state.Name = "label_state";
+            this.label_state.Size = new System.Drawing.Size(264, 20);
+            this.label_state.TabIndex = 11;
+            this.label_state.Text = "ready";
+            this.label_state.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label3
             // 
@@ -219,10 +240,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox1);
             this.Margin = new System.Windows.Forms.Padding(10);
-            this.MaximumSize = new System.Drawing.Size(286, 286);
-            this.MinimumSize = new System.Drawing.Size(286, 286);
+            this.MaximumSize = new System.Drawing.Size(286, 316);
+            this.MinimumSize = new System.Drawing.Size(286, 316);
             this.Name = "Looper";
-            this.Size = new System.Drawing.Size(286, 286);
+            this.Size = new System.Drawing.Size(286, 316);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Volume)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -247,5 +268,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown numericUpDown_start;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Label label_state;
+        private ColoredProgressBar coloredProgressBar_record;
     }
 }

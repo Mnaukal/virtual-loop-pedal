@@ -39,12 +39,12 @@
             this.label_bar = new System.Windows.Forms.Label();
             this.checkBox_metronome = new System.Windows.Forms.CheckBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.button_addLooper = new System.Windows.Forms.Button();
+            this.button_deleteLooper = new System.Windows.Forms.Button();
             this.looper1 = new VirtualLoopPedal.Looper();
             this.looper2 = new VirtualLoopPedal.Looper();
             this.looper3 = new VirtualLoopPedal.Looper();
             this.looper4 = new VirtualLoopPedal.Looper();
-            this.button_addLooper = new System.Windows.Forms.Button();
-            this.button_deleteLooper = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_metronomeMeasuse)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_metronomeTempo)).BeginInit();
             this.groupBox_metronome.SuspendLayout();
@@ -207,56 +207,8 @@
             this.flowLayoutPanel1.Controls.Add(this.looper4);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 89);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1233, 310);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1233, 380);
             this.flowLayoutPanel1.TabIndex = 7;
-            // 
-            // looper1
-            // 
-            this.looper1.DesiredLatency = 100;
-            this.looper1.Location = new System.Drawing.Point(10, 10);
-            this.looper1.Margin = new System.Windows.Forms.Padding(10);
-            this.looper1.MaximumSize = new System.Drawing.Size(286, 286);
-            this.looper1.MinimumSize = new System.Drawing.Size(286, 286);
-            this.looper1.Name = "looper1";
-            this.looper1.Selected = false;
-            this.looper1.Size = new System.Drawing.Size(286, 286);
-            this.looper1.TabIndex = 0;
-            // 
-            // looper2
-            // 
-            this.looper2.DesiredLatency = 100;
-            this.looper2.Location = new System.Drawing.Point(316, 10);
-            this.looper2.Margin = new System.Windows.Forms.Padding(10);
-            this.looper2.MaximumSize = new System.Drawing.Size(286, 286);
-            this.looper2.MinimumSize = new System.Drawing.Size(286, 286);
-            this.looper2.Name = "looper2";
-            this.looper2.Selected = false;
-            this.looper2.Size = new System.Drawing.Size(286, 286);
-            this.looper2.TabIndex = 1;
-            // 
-            // looper3
-            // 
-            this.looper3.DesiredLatency = 100;
-            this.looper3.Location = new System.Drawing.Point(622, 10);
-            this.looper3.Margin = new System.Windows.Forms.Padding(10);
-            this.looper3.MaximumSize = new System.Drawing.Size(286, 286);
-            this.looper3.MinimumSize = new System.Drawing.Size(286, 286);
-            this.looper3.Name = "looper3";
-            this.looper3.Selected = false;
-            this.looper3.Size = new System.Drawing.Size(286, 286);
-            this.looper3.TabIndex = 2;
-            // 
-            // looper4
-            // 
-            this.looper4.DesiredLatency = 100;
-            this.looper4.Location = new System.Drawing.Point(928, 10);
-            this.looper4.Margin = new System.Windows.Forms.Padding(10);
-            this.looper4.MaximumSize = new System.Drawing.Size(286, 286);
-            this.looper4.MinimumSize = new System.Drawing.Size(286, 286);
-            this.looper4.Name = "looper4";
-            this.looper4.Selected = false;
-            this.looper4.Size = new System.Drawing.Size(286, 286);
-            this.looper4.TabIndex = 3;
             // 
             // button_addLooper
             // 
@@ -278,11 +230,47 @@
             this.button_deleteLooper.UseVisualStyleBackColor = true;
             this.button_deleteLooper.Click += new System.EventHandler(this.button_deleteLooper_Click);
             // 
+            // looper1
+            // 
+            this.looper1.DesiredLatency = 100;
+            this.looper1.Location = new System.Drawing.Point(10, 10);
+            this.looper1.Margin = new System.Windows.Forms.Padding(10);
+            this.looper1.Name = "looper1";
+            this.looper1.Selected = false;
+            this.looper1.TabIndex = 0;
+            // 
+            // looper2
+            // 
+            this.looper2.DesiredLatency = 100;
+            this.looper2.Location = new System.Drawing.Point(316, 10);
+            this.looper2.Margin = new System.Windows.Forms.Padding(10);
+            this.looper2.Name = "looper2";
+            this.looper2.Selected = false;
+            this.looper2.TabIndex = 1;
+            // 
+            // looper3
+            // 
+            this.looper3.DesiredLatency = 100;
+            this.looper3.Location = new System.Drawing.Point(622, 10);
+            this.looper3.Margin = new System.Windows.Forms.Padding(10);
+            this.looper3.Name = "looper3";
+            this.looper3.Selected = false;
+            this.looper3.TabIndex = 2;
+            // 
+            // looper4
+            // 
+            this.looper4.DesiredLatency = 100;
+            this.looper4.Location = new System.Drawing.Point(928, 10);
+            this.looper4.Margin = new System.Windows.Forms.Padding(10);
+            this.looper4.Name = "looper4";
+            this.looper4.Selected = false;
+            this.looper4.TabIndex = 3;
+            // 
             // Pedal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1232, 397);
+            this.ClientSize = new System.Drawing.Size(1232, 467);
             this.Controls.Add(this.button_deleteLooper);
             this.Controls.Add(this.button_addLooper);
             this.Controls.Add(this.flowLayoutPanel1);

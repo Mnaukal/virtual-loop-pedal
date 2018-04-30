@@ -40,6 +40,7 @@ namespace VirtualLoopPedal
             looper.SetName("Looper " + ++looperCount);
             looper.Click += looper_Click;
             metronome.Bar += looper.Metronome_Bar;
+            metronome.Beat += looper.Metronome_Beat;
         }
 
         private void Metronome_Beat(object sender, MetronomeEventArgs e)
@@ -213,7 +214,7 @@ namespace VirtualLoopPedal
         {
             //Console.WriteLine(currentBeat);
 
-            OnBeat(new MetronomeEventArgs() { BeatNumber = currentBeat } );
+            OnBeat(new MetronomeEventArgs() { BeatNumber = currentBeat, BarNumber = currentBar, BeatsInBar = BPB } ); // maybe move after OnBar
 
             if (MakeSound)
             {
@@ -243,7 +244,7 @@ namespace VirtualLoopPedal
 
     public class MetronomeEventArgs : EventArgs
     {
-        public int BarNumber, BeatNumber;
+        public int BarNumber, BeatNumber, BeatsInBar;
     }
 
 }
