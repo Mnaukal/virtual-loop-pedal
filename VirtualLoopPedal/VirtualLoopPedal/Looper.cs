@@ -32,20 +32,35 @@ namespace VirtualLoopPedal
         }
         private int desiredLatency = 100;
 
+        [Description("Selected Looper")]
+        public bool Selected
+        {
+            get { return selected; }
+            set
+            {
+                selected = value;
+                if (selected)
+                    groupBox1.BackColor = SelectedColor;
+                else
+                    groupBox1.BackColor = SystemColors.Control;
+            }
+        }
+        private bool selected = false;
+
+        [Description("Desired latency of audio player.")]
+        public Color SelectedColor = Color.Honeydew;
+
         WaveInEvent recorder;
         WaveFileWriter writer;
         BufferedWaveProvider bufferedWaveProvider;
+        WaveOutEvent playerBack; // to play back while recording
         bool playBackWhileRecording = false;
+        bool closing = false;
 
         WaveOutEvent player;
         AudioFileReader reader;
         LoopStream loop;
-
-        WaveOutEvent playerBack; // to play back while recording
-
-
-        bool closing = false;
-
+        
         public Looper()
         {
             InitializeComponent();
@@ -64,7 +79,28 @@ namespace VirtualLoopPedal
 
             bufferedWaveProvider = new BufferedWaveProvider(recorder.WaveFormat);
 
-            //Directory.CreateDirectory("data\\" + this.Name);
+            WireClickOfChildren(this);
+        }
+
+        void WireClickOfChildren(Control parent)
+        {
+            foreach (Control control in parent.Controls)
+            {
+                control.Click += control_Click;
+                if (control.HasChildren)
+                    WireClickOfChildren(control);
+            }
+        }
+
+        public void SetName(string name)
+        {
+            this.Name = name;
+            groupBox1.Text = this.Name;
+        }
+
+        private void control_Click(object sender, EventArgs e)
+        {
+            this.InvokeOnClick(this, e);
         }
 
         private void PlayerBack_PlaybackStopped(object sender, StoppedEventArgs e)
@@ -112,52 +148,22 @@ namespace VirtualLoopPedal
 
         private void button_record_Click(object sender, EventArgs e)
         {
-            playBackWhileRecording = checkBox_playBack.Checked;
-            Directory.CreateDirectory("data\\" + this.Name);
-
-            if (checkBox_playBack.Checked)
-            {
-                playerBack.Init(bufferedWaveProvider);
-                playerBack.Play();
-            }
-
-            writer = new WaveFileWriter("data\\" + this.Name + "\\" + FileName, recorder.WaveFormat);
-            recorder.StartRecording();
-            button_record.Enabled = false;
-            button_StopRecording.Enabled = true;
+            StartRecording();
         }
 
         private void button_play_Click(object sender, EventArgs e)
         {
-            if (File.Exists("data\\" + this.Name + "\\" + FileName))
-            {
-                reader = new AudioFileReader("data\\" + this.Name + "\\" + FileName);
-                reader.Volume = trackBar_Volume.Value / 100f;
-                loop = new LoopStream(reader);
-                player.Init(loop);
-                player.Play();
-                button_play.Enabled = false;
-                button_StopPlayback.Enabled = true;
-            }
-            else
-            {
-                MessageBox.Show("You must first record the audio.", "File doesn't exist");
-            }
+            StartPlayback();
         }
 
         private void button_StopRecording_Click(object sender, EventArgs e)
         {
-            recorder.StopRecording();
-            if (playBackWhileRecording)
-                playerBack.Stop();
-            button_record.Enabled = true;
-            button_StopRecording.Enabled = false;
-            button_play.Enabled = true;
+            StopRecording();
         }
 
         private void button_StopPlayback_Click(object sender, EventArgs e)
         {
-            player?.Stop();
+            StopPlayback();
         }
 
         protected override void OnHandleDestroyed(EventArgs e)
@@ -175,6 +181,64 @@ namespace VirtualLoopPedal
                 reader.Volume = trackBar_Volume.Value / 100f;
 
             //player.Volume = trackBar_Volume.Value / 100f; 
+        }
+
+        void StartRecording()
+        {
+            playBackWhileRecording = checkBox_playBack.Checked;
+            Directory.CreateDirectory("data\\" + this.Name);
+
+            if (checkBox_playBack.Checked)
+            {
+                playerBack.Init(bufferedWaveProvider);
+                playerBack.Play();
+            }
+
+            writer = new WaveFileWriter("data\\" + this.Name + "\\" + FileName, recorder.WaveFormat);
+            recorder.StartRecording();
+            button_record.Enabled = false;
+            button_StopRecording.Enabled = true;
+        }
+
+        void StopRecording()
+        {
+            recorder.StopRecording();
+            if (playBackWhileRecording)
+                playerBack.Stop();
+            button_record.Enabled = true;
+            button_StopRecording.Enabled = false;
+            button_play.Enabled = true;
+        }
+
+        void StartPlayback()
+        {
+            if (File.Exists("data\\" + this.Name + "\\" + FileName))
+            {
+                reader = new AudioFileReader("data\\" + this.Name + "\\" + FileName);
+                reader.Volume = trackBar_Volume.Value / 100f;
+                loop = new LoopStream(reader);
+                player.Init(loop);
+                player.Play();
+                button_play.Enabled = false;
+                button_StopPlayback.Enabled = true;
+            }
+            else
+            {
+                MessageBox.Show("You must first record the audio.", "File doesn't exist");
+            }
+        }
+
+        void StopPlayback()
+        {
+            player?.Stop();
+        }
+
+        /// <summary>
+        /// Wire this to base metronome
+        /// </summary>
+        public void Metronome_Bar(object sender, MetronomeEventArgs e) 
+        {
+            
         }
     }
 }

@@ -15,11 +15,41 @@ namespace VirtualLoopPedal
     public partial class Pedal : Form
     {
         Metronome metronome;
+        List<Looper> loopers;
+        Looper selectedLooper = null;
+        int looperCount = 0;
 
         public Pedal()
         {
             InitializeComponent();
             metronome = new Metronome(Convert.ToInt32(numericUpDown_metronomeTempo.Value), Convert.ToInt32(numericUpDown_metronomeMeasuse.Value));
+
+            metronome.Bar += Metronome_Bar;
+            metronome.Beat += Metronome_Beat;
+
+            loopers = new List<Looper>();
+            AddLooper(looper1);
+            AddLooper(looper2);
+            AddLooper(looper3);
+            AddLooper(looper4);
+        }
+
+        void AddLooper(Looper looper)
+        {
+            loopers.Add(looper);
+            looper.SetName("Looper " + ++looperCount);
+            looper.Click += looper_Click;
+            metronome.Bar += looper.Metronome_Bar;
+        }
+
+        private void Metronome_Beat(object sender, MetronomeEventArgs e)
+        {
+            label_beat.Text = (e.BeatNumber + 1).ToString() + "/" + numericUpDown_metronomeMeasuse.Value.ToString();
+        }
+
+        private void Metronome_Bar(object sender, MetronomeEventArgs e)
+        {
+            label_bar.Text = e.BarNumber.ToString();
         }
 
         private void button_metronomeStart_Click(object sender, EventArgs e)
@@ -41,6 +71,42 @@ namespace VirtualLoopPedal
         {
             metronome.ChangeTempo(Convert.ToInt32((sender as NumericUpDown).Value));
         }
+
+        private void checkBox_metronome_CheckedChanged(object sender, EventArgs e)
+        {
+            metronome.MakeSound = (sender as CheckBox).Checked;
+        }
+
+        /// <summary>
+        /// Select Looper
+        /// </summary>
+        private void looper_Click(object sender, EventArgs e)
+        {
+            Looper l = sender as Looper;
+            DeselectAllLoopers();
+            l.Selected = true;
+            selectedLooper = l;
+        }
+
+        private void DeselectAllLoopers()
+        {
+            foreach (Looper l in loopers)
+                l.Selected = false;
+        }
+
+        private void button_addLooper_Click(object sender, EventArgs e)
+        {
+            Looper l = new Looper();
+            flowLayoutPanel1.Controls.Add(l);
+            AddLooper(l);
+        }
+
+        private void button_deleteLooper_Click(object sender, EventArgs e)
+        {
+            loopers.Remove(selectedLooper);
+            selectedLooper?.Dispose();
+            selectedLooper = null;
+        }
     }
 
     class Metronome
@@ -50,9 +116,21 @@ namespace VirtualLoopPedal
         int BPM; // beats per minute
         int BPB; // beats per bar
         int currentBeat; // current beat in bar
+        int currentBar; // number of bars since start of metronome
 
         ISampleProvider first, other; // beats in bar
         WaveOutEvent First, Other;
+
+        public bool MakeSound = true;
+
+        /// <summary>
+        /// Fires on every beat
+        /// </summary>
+        public event EventHandler<MetronomeEventArgs> Beat;
+        /// <summary>
+        /// Fires on start of each bar (measure)
+        /// </summary>
+        public event EventHandler<MetronomeEventArgs> Bar;
         
         public Metronome(int Tempo, int BeatsPerBar)
         {
@@ -84,8 +162,28 @@ namespace VirtualLoopPedal
             Other.Volume = 1;
         }
 
+        protected virtual void OnBeat(MetronomeEventArgs e)
+        {
+            EventHandler< MetronomeEventArgs> handler = Beat;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+
+        protected virtual void OnBar(MetronomeEventArgs e)
+        {
+            EventHandler<MetronomeEventArgs> handler = Bar;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+
         public void Start()
         {
+            currentBeat = 0;
+            currentBar = 1;
             timer.Interval = 60000 / BPM;
             timer.Start();
             running = true;
@@ -108,30 +206,44 @@ namespace VirtualLoopPedal
         public void Stop()
         {
             timer.Stop();
-            currentBeat = 0;
             running = false;
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
             //Console.WriteLine(currentBeat);
-            if (currentBeat == 0)
-                First.Play();
-            else
-                Other.Play();
 
-            //System.Threading.Thread.Sleep(100);
+            OnBeat(new MetronomeEventArgs() { BeatNumber = currentBeat } );
 
-            Task.Delay(100).ContinueWith(t =>
+            if (MakeSound)
             {
-                First.Pause();
-                Other.Pause();
-            });
+                if (currentBeat == 0)
+                {
+                    First.Play();
+                    OnBar(new MetronomeEventArgs() { BarNumber = currentBar });
+                }
+                else
+                    Other.Play();
+
+                Task.Delay(100).ContinueWith(t =>
+                {
+                    First.Pause();
+                    Other.Pause();
+                });
+            }
 
             currentBeat++;
             if (currentBeat >= BPB)
+            {
                 currentBeat = 0;
+                currentBar++;
+            }
         }
+    }
+
+    public class MetronomeEventArgs : EventArgs
+    {
+        public int BarNumber, BeatNumber;
     }
 
 }
