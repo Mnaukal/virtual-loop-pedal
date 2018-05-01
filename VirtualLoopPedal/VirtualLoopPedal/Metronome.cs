@@ -138,19 +138,25 @@ namespace VirtualLoopPedal
             Stop();
         }
 
+        public void StartOrStop()
+        {
+            if (running)
+                Stop();
+            else
+                Start();
+        }
+
         private void Timer_Tick(object sender, EventArgs e)
         {
             //Console.WriteLine(currentBeat);
-
+            if (currentBeat == 0)
+                OnBar(new MetronomeEventArgs() { BarNumber = currentBar });
             OnBeat(new MetronomeEventArgs() { BeatNumber = currentBeat, BarNumber = currentBar, BeatsInBar = BPB }); // maybe move after OnBar
 
             if (MakeSound)
             {
                 if (currentBeat == 0)
-                {
                     First.Play();
-                    OnBar(new MetronomeEventArgs() { BarNumber = currentBar });
-                }
                 else
                     Other.Play();
 
@@ -159,7 +165,7 @@ namespace VirtualLoopPedal
                     First.Pause();
                     Other.Pause();
                 });
-            }
+            }           
 
             currentBeat++;
             if (currentBeat >= BPB)

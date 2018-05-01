@@ -201,11 +201,17 @@ namespace VirtualLoopPedal
                 State = LooperState.WantToRecord;
             else
                 State = LooperState.ReadyToRecord;
+
+            if (Convert.ToInt32(numericUpDown_start.Value) == 0)
+                StartRecording();
         }
 
         private void button_play_Click(object sender, EventArgs e)
         {
             State = LooperState.ReadyToPlay;
+
+            if (Convert.ToInt32(numericUpDown_start.Value) == 0)
+                StartPlayback();
         }
 
         private void button_StopRecording_Click(object sender, EventArgs e)
@@ -395,7 +401,7 @@ namespace VirtualLoopPedal
 
             void ResetProgressBar(Color color, int maximum)
         {
-            coloredProgressBar_record.Maximum = maximum;
+            coloredProgressBar_record.Maximum = maximum != 0 ? maximum : 1;
             coloredProgressBar_record.Value = 0;
             coloredProgressBar_record.ForeColor = color;
         }

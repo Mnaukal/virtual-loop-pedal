@@ -115,50 +115,43 @@ namespace VirtualLoopPedal
         {
             switch (e.KeyCode)
             {
-                case Keys.NumPad1:
-                case Keys.D1:
+                case Keys.F:
                     looper_Click(loopers[0], new EventArgs());
                     break;
-                case Keys.NumPad2:
-                case Keys.D2:
+                case Keys.G:
                     looper_Click(loopers[1], new EventArgs());
                     break;
-                case Keys.NumPad3:
-                case Keys.D3:
+                case Keys.H:
                     looper_Click(loopers[2], new EventArgs());
                     break;
-                case Keys.NumPad4:
-                case Keys.D4:
+                case Keys.J:
                     looper_Click(loopers[3], new EventArgs());
                     break;
-                case Keys.Add:
+                case Keys.V:
                     // TODO: next looper
                     break;
-                case Keys.Subtract:
+                case Keys.C:
                     // TODO: previous looper
                     break;
-                case Keys.Divide:
                 case Keys.M:
-                case Keys.S:
-                    metronome.Start();
+                    checkBox_metronome.Checked = !checkBox_metronome.Checked;
                     break;
-                case Keys.Multiply:
-                case Keys.N:
-                case Keys.D:
-                    metronome.Stop();
-                        break;
-                case Keys.Delete:
                 case Keys.R:
-                case Keys.Decimal:
+                case Keys.N:
                     selectedLooper?.RecordOrStop();
                     break;
-                case Keys.Enter:
-                case Keys.NumPad0:
-                case Keys.Space:
+                case Keys.B:
+                case Keys.P:
                     selectedLooper?.PlayOrPause();
                     break;
+                case Keys.Space:
+                    metronome.StartOrStop();
+                    break;
+                case Keys.X:
+                    metronome.EmergencyStop();
+                    break;
             }
-            e.SuppressKeyPress = true;
+            //e.SuppressKeyPress = true;
         }
     }
 }

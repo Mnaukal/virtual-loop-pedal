@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Looper));
             this.button_record = new System.Windows.Forms.Button();
             this.button_play = new System.Windows.Forms.Button();
             this.button_StopRecording = new System.Windows.Forms.Button();
@@ -54,7 +53,7 @@
             // button_record
             // 
             this.button_record.Location = new System.Drawing.Point(12, 124);
-            this.button_record.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button_record.Margin = new System.Windows.Forms.Padding(4);
             this.button_record.Name = "button_record";
             this.button_record.Size = new System.Drawing.Size(133, 62);
             this.button_record.TabIndex = 0;
@@ -65,7 +64,7 @@
             // button_play
             // 
             this.button_play.Location = new System.Drawing.Point(12, 244);
-            this.button_play.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button_play.Margin = new System.Windows.Forms.Padding(4);
             this.button_play.Name = "button_play";
             this.button_play.Size = new System.Drawing.Size(133, 62);
             this.button_play.TabIndex = 1;
@@ -77,7 +76,7 @@
             // 
             this.button_StopRecording.Enabled = false;
             this.button_StopRecording.Location = new System.Drawing.Point(152, 124);
-            this.button_StopRecording.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button_StopRecording.Margin = new System.Windows.Forms.Padding(4);
             this.button_StopRecording.Name = "button_StopRecording";
             this.button_StopRecording.Size = new System.Drawing.Size(133, 62);
             this.button_StopRecording.TabIndex = 2;
@@ -89,7 +88,7 @@
             // 
             this.button_StopPlayback.Enabled = false;
             this.button_StopPlayback.Location = new System.Drawing.Point(152, 244);
-            this.button_StopPlayback.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button_StopPlayback.Margin = new System.Windows.Forms.Padding(4);
             this.button_StopPlayback.Name = "button_StopPlayback";
             this.button_StopPlayback.Size = new System.Drawing.Size(133, 62);
             this.button_StopPlayback.TabIndex = 3;
@@ -101,7 +100,7 @@
             // 
             this.trackBar_Volume.LargeChange = 10;
             this.trackBar_Volume.Location = new System.Drawing.Point(304, 30);
-            this.trackBar_Volume.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.trackBar_Volume.Margin = new System.Windows.Forms.Padding(4);
             this.trackBar_Volume.Maximum = 100;
             this.trackBar_Volume.Name = "trackBar_Volume";
             this.trackBar_Volume.Orientation = System.Windows.Forms.Orientation.Vertical;
@@ -130,7 +129,7 @@
             this.checkBox_playBack.Checked = true;
             this.checkBox_playBack.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_playBack.Location = new System.Drawing.Point(56, 193);
-            this.checkBox_playBack.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBox_playBack.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox_playBack.Name = "checkBox_playBack";
             this.checkBox_playBack.Size = new System.Drawing.Size(187, 21);
             this.checkBox_playBack.TabIndex = 6;
@@ -156,9 +155,9 @@
             this.groupBox1.Controls.Add(this.button_StopPlayback);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(381, 389);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
@@ -180,10 +179,12 @@
             this.label3.Location = new System.Drawing.Point(8, 69);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(161, 17);
+            this.label3.Size = new System.Drawing.Size(91, 17);
             this.label3.TabIndex = 9;
-            this.label3.Text = "Start on bar (multiple of)";
-            this.toolTip1.SetToolTip(this.label3, resources.GetString("label3.ToolTip"));
+            this.label3.Text = "Align on bars";
+            this.toolTip1.SetToolTip(this.label3, "Recording and playing will wait to start unitil a bar which is a multiple of this" +
+        " number.\r\nSet to 0 to start immediately.\r\nIt\'s recommended to set this to a milt" +
+        "iple of the length.");
             // 
             // label2
             // 
@@ -198,14 +199,9 @@
             // numericUpDown_start
             // 
             this.numericUpDown_start.Location = new System.Drawing.Point(187, 66);
-            this.numericUpDown_start.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numericUpDown_start.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDown_start.Maximum = new decimal(new int[] {
             32,
-            0,
-            0,
-            0});
-            this.numericUpDown_start.Minimum = new decimal(new int[] {
-            1,
             0,
             0,
             0});
@@ -221,7 +217,7 @@
             // numericUpDown_length
             // 
             this.numericUpDown_length.Location = new System.Drawing.Point(187, 30);
-            this.numericUpDown_length.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numericUpDown_length.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDown_length.Maximum = new decimal(new int[] {
             32,
             0,

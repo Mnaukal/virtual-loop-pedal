@@ -120,7 +120,4 @@
   <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <data name="label3.ToolTip" xml:space="preserve">
-    <value>Recording will wait to start at start of the bar or phrase. Set this to 1 to start recording when next bar starts. If you set it to higher number, it will wait untill the number of current bar is divisible by this.</value>
-  </data>
 </root>
