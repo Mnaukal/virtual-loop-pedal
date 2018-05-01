@@ -153,5 +153,11 @@ namespace VirtualLoopPedal
             }
             //e.SuppressKeyPress = true;
         }
+
+        private void button_tempoTool_Click(object sender, EventArgs e)
+        {
+            TempoTool tempoTool = new TempoTool();
+            tempoTool.Show();
+        }
     }
 }

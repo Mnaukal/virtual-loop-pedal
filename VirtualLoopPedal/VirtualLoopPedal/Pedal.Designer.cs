@@ -39,12 +39,14 @@
             this.label_bar = new System.Windows.Forms.Label();
             this.checkBox_metronome = new System.Windows.Forms.CheckBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.button_addLooper = new System.Windows.Forms.Button();
+            this.button_deleteLooper = new System.Windows.Forms.Button();
             this.looper1 = new VirtualLoopPedal.Looper();
             this.looper2 = new VirtualLoopPedal.Looper();
             this.looper3 = new VirtualLoopPedal.Looper();
             this.looper4 = new VirtualLoopPedal.Looper();
-            this.button_addLooper = new System.Windows.Forms.Button();
-            this.button_deleteLooper = new System.Windows.Forms.Button();
+            this.button_settings = new System.Windows.Forms.Button();
+            this.button_tempoTool = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_metronomeMeasuse)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_metronomeTempo)).BeginInit();
             this.groupBox_metronome.SuspendLayout();
@@ -222,6 +224,28 @@
             this.flowLayoutPanel1.Size = new System.Drawing.Size(1635, 468);
             this.flowLayoutPanel1.TabIndex = 7;
             // 
+            // button_addLooper
+            // 
+            this.button_addLooper.Location = new System.Drawing.Point(16, 20);
+            this.button_addLooper.Margin = new System.Windows.Forms.Padding(4);
+            this.button_addLooper.Name = "button_addLooper";
+            this.button_addLooper.Size = new System.Drawing.Size(131, 32);
+            this.button_addLooper.TabIndex = 9;
+            this.button_addLooper.Text = "Add Looper";
+            this.button_addLooper.UseVisualStyleBackColor = true;
+            this.button_addLooper.Click += new System.EventHandler(this.button_addLooper_Click);
+            // 
+            // button_deleteLooper
+            // 
+            this.button_deleteLooper.Location = new System.Drawing.Point(16, 59);
+            this.button_deleteLooper.Margin = new System.Windows.Forms.Padding(4);
+            this.button_deleteLooper.Name = "button_deleteLooper";
+            this.button_deleteLooper.Size = new System.Drawing.Size(131, 32);
+            this.button_deleteLooper.TabIndex = 10;
+            this.button_deleteLooper.Text = "Remove selected";
+            this.button_deleteLooper.UseVisualStyleBackColor = true;
+            this.button_deleteLooper.Click += new System.EventHandler(this.button_deleteLooper_Click);
+            // 
             // looper1
             // 
             this.looper1.DesiredLatency = 100;
@@ -270,27 +294,26 @@
             this.looper4.Size = new System.Drawing.Size(381, 389);
             this.looper4.TabIndex = 8;
             // 
-            // button_addLooper
+            // button_settings
             // 
-            this.button_addLooper.Location = new System.Drawing.Point(16, 20);
-            this.button_addLooper.Margin = new System.Windows.Forms.Padding(4);
-            this.button_addLooper.Name = "button_addLooper";
-            this.button_addLooper.Size = new System.Drawing.Size(131, 32);
-            this.button_addLooper.TabIndex = 9;
-            this.button_addLooper.Text = "Add Looper";
-            this.button_addLooper.UseVisualStyleBackColor = true;
-            this.button_addLooper.Click += new System.EventHandler(this.button_addLooper_Click);
+            this.button_settings.Location = new System.Drawing.Point(1490, 20);
+            this.button_settings.Margin = new System.Windows.Forms.Padding(4);
+            this.button_settings.Name = "button_settings";
+            this.button_settings.Size = new System.Drawing.Size(131, 32);
+            this.button_settings.TabIndex = 9;
+            this.button_settings.Text = "Settings";
+            this.button_settings.UseVisualStyleBackColor = true;
             // 
-            // button_deleteLooper
+            // button_tempoTool
             // 
-            this.button_deleteLooper.Location = new System.Drawing.Point(16, 59);
-            this.button_deleteLooper.Margin = new System.Windows.Forms.Padding(4);
-            this.button_deleteLooper.Name = "button_deleteLooper";
-            this.button_deleteLooper.Size = new System.Drawing.Size(131, 32);
-            this.button_deleteLooper.TabIndex = 10;
-            this.button_deleteLooper.Text = "Remove selected";
-            this.button_deleteLooper.UseVisualStyleBackColor = true;
-            this.button_deleteLooper.Click += new System.EventHandler(this.button_deleteLooper_Click);
+            this.button_tempoTool.Location = new System.Drawing.Point(1490, 60);
+            this.button_tempoTool.Margin = new System.Windows.Forms.Padding(4);
+            this.button_tempoTool.Name = "button_tempoTool";
+            this.button_tempoTool.Size = new System.Drawing.Size(131, 32);
+            this.button_tempoTool.TabIndex = 9;
+            this.button_tempoTool.Text = "Tempo Tool";
+            this.button_tempoTool.UseVisualStyleBackColor = true;
+            this.button_tempoTool.Click += new System.EventHandler(this.button_tempoTool_Click);
             // 
             // Pedal
             // 
@@ -298,6 +321,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1634, 575);
             this.Controls.Add(this.button_deleteLooper);
+            this.Controls.Add(this.button_tempoTool);
+            this.Controls.Add(this.button_settings);
             this.Controls.Add(this.button_addLooper);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.groupBox_metronome);
@@ -335,6 +360,8 @@
         private Looper looper2;
         private Looper looper3;
         private Looper looper4;
+        private System.Windows.Forms.Button button_settings;
+        private System.Windows.Forms.Button button_tempoTool;
     }
 }
 
