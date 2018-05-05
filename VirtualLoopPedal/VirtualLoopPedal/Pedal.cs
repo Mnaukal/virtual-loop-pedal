@@ -17,10 +17,15 @@ namespace VirtualLoopPedal
         List<Looper> loopers;
         Looper selectedLooper = null;
         int looperCount = 0;
-        public WaveFormat waveFormat = WaveFormat.CreateIeeeFloatWaveFormat(8000, 1); // TODO: set in settings
+        public WaveFormat waveFormat;
+        public Driver driver;
+        public int WaveOutDeviceNumber = 0;
+        public int WaveInDeviceNumber = 0;
+        public string AsioDeviceName;
 
         public Pedal()
         {
+            Reset();
             InitializeComponent();
 
             loopers = new List<Looper>();
@@ -30,6 +35,15 @@ namespace VirtualLoopPedal
             AddLooper(looper4);
             recorder.SetParent(this);
             metronome.SetParent(this);
+        }
+
+        public void Reset()
+        {
+            waveFormat = WaveFormat.CreateIeeeFloatWaveFormat(Properties.Settings.Default.SampleRate, 1);
+            driver = Properties.Settings.Default.Driver == "ASIO" ? Driver.ASIO : Driver.WaveEvent;
+
+            recorder?.Recorder_Load(this, new EventArgs());
+            metronome?.Metronome_Load(this, new EventArgs());
         }
 
         public Metronome GetMetronome()
@@ -73,8 +87,8 @@ namespace VirtualLoopPedal
         private void button_addLooper_Click(object sender, EventArgs e)
         {
             Looper l = new Looper();
-            flowLayoutPanel_loopers.Controls.Add(l);
             AddLooper(l);
+            flowLayoutPanel_loopers.Controls.Add(l);
         }
 
         private void button_deleteLooper_Click(object sender, EventArgs e)
@@ -137,5 +151,27 @@ namespace VirtualLoopPedal
             TempoTool tempoTool = new TempoTool();
             tempoTool.Show();
         }
+
+        private void button_settings_Click(object sender, EventArgs e)
+        {
+            metronome.EmergencyStop();
+            Settings settings = new Settings();
+            DialogResult result = settings.ShowDialog(this);
+
+            if(result == DialogResult.OK)
+            {
+                WaveOutDeviceNumber = settings.WaveOutDeviceNumber;
+                WaveInDeviceNumber = settings.WaveInDeviceNumber;
+                AsioDeviceName = settings.AsioDeviceName;
+
+                Properties.Settings.Default.SampleRate = settings.SampleRate;
+                Properties.Settings.Default.Driver = settings.SelectedDriver == Driver.ASIO ? "ASIO" : "WaveEvent";
+                Properties.Settings.Default.Save();
+
+                Reset();
+            }
+        }
     }
+
+    public enum Driver { WaveEvent, ASIO }
 }

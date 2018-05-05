@@ -20,17 +20,17 @@ namespace VirtualLoopPedal
             set
             {
                 desiredLatency = value;
-                if (player != null)
-                    player.DesiredLatency = desiredLatency;
+                if (player != null && parent?.driver == Driver.WaveEvent)
+                    (player as WaveOutEvent).DesiredLatency = desiredLatency;
             }
         }
         private int desiredLatency = 100;
 
         MixingSampleProvider mixer;
-        WaveInEvent recorder;
+        IWaveIn recorder;
         BufferedWaveProvider buffer;
         MeteringSampleProvider meter;
-        WaveOutEvent player;
+        IWavePlayer player;
 
         bool listen = false;
         private Pedal parent;
@@ -55,16 +55,26 @@ namespace VirtualLoopPedal
             Write?.Invoke(this, e);
         }
 
-        private void Recorder_Load(object sender, EventArgs e)
+        public void Recorder_Load(object sender, EventArgs e)
         {
-            recorder = new WaveInEvent();
+            if (parent == null)
+                return;
+
+            if(parent.driver == Driver.WaveEvent)
+            {
+                recorder = new WaveInEvent() { DeviceNumber = parent.WaveInDeviceNumber, WaveFormat = parent.waveFormat };
+                player = new WaveOutEvent() { DeviceNumber = parent.WaveOutDeviceNumber };
+            }
+            else // asio
+            {
+
+            }
+
             recorder.DataAvailable += Recorder_DataAvailable;
             recorder.RecordingStopped += Recorder_RecordingStopped;
-            recorder.WaveFormat = parent.waveFormat;
 
-            player = new WaveOutEvent();
             player.PlaybackStopped += Player_PlaybackStopped;
-            player.DesiredLatency = DesiredLatency;
+            DesiredLatency = desiredLatency;
 
             buffer = new BufferedWaveProvider(recorder.WaveFormat);
             mixer = new MixingSampleProvider(recorder.WaveFormat);
@@ -123,7 +133,14 @@ namespace VirtualLoopPedal
 
         public void AddTrackNoOffset(ISampleProvider provider)
         {
-            mixer.AddMixerInput(provider);
+            try
+            {
+                mixer.AddMixerInput(provider);
+            }
+            catch (ArgumentException ae)
+            {
+                MessageBox.Show("File not recorded using Virtual Loop Pedal or recorded with different settings.", "Wrong file format");
+            }
         }
 
         public void RemoveTrack(ISampleProvider provider)

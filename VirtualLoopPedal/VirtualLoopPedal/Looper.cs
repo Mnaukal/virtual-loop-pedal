@@ -90,7 +90,8 @@ namespace VirtualLoopPedal
 
         private void Looper_Load(object sender, EventArgs e)
         {
-            parent.GetRecorder().MixerInputEnded += Looper_MixerInputEnded;
+            if(parent != null)
+                parent.GetRecorder().MixerInputEnded += Looper_MixerInputEnded;
         }
 
         private void Looper_MixerInputEnded(object sender, SampleProviderEventArgs e)
@@ -170,8 +171,11 @@ namespace VirtualLoopPedal
             reader1 = null;
             reader2?.Dispose();
             reader2 = null;
-            parent.GetRecorder().RemoveTrack(sampleProvider1);
-            parent.GetRecorder().RemoveTrack(sampleProvider2);
+            if (parent != null)
+            {
+                parent.GetRecorder().RemoveTrack(sampleProvider1);
+                parent.GetRecorder().RemoveTrack(sampleProvider2);
+            }
 
             base.OnHandleDestroyed(e);
         }

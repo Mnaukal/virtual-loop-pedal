@@ -51,7 +51,7 @@ namespace VirtualLoopPedal
             this.Load += Metronome_Load;
         }
 
-        private void Metronome_Load(object sender, EventArgs e)
+        public void Metronome_Load(object sender, EventArgs e)
         {
             timer = new Timer();
             timer.Tick += Timer_Tick;
@@ -78,8 +78,11 @@ namespace VirtualLoopPedal
             otherBeatVol = new VolumeSampleProvider(otherBeatGen);
             otherBeatVol.Volume = 0;
 
-            parent.GetRecorder().AddTrackNoOffset(firstBeatVol);
-            parent.GetRecorder().AddTrackNoOffset(otherBeatVol);
+            if (parent != null)
+            {
+                parent.GetRecorder().AddTrackNoOffset(firstBeatVol);
+                parent.GetRecorder().AddTrackNoOffset(otherBeatVol);
+            }
         }
 
         public void SetParent(Pedal parent)

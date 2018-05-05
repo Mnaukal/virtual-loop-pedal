@@ -60,6 +60,8 @@
             // 
             this.looper1.Location = new System.Drawing.Point(10, 10);
             this.looper1.Margin = new System.Windows.Forms.Padding(10);
+            this.looper1.MaximumSize = new System.Drawing.Size(286, 267);
+            this.looper1.MinimumSize = new System.Drawing.Size(286, 267);
             this.looper1.Name = "looper1";
             this.looper1.Selected = false;
             this.looper1.Size = new System.Drawing.Size(286, 267);
@@ -69,6 +71,8 @@
             // 
             this.looper2.Location = new System.Drawing.Point(316, 10);
             this.looper2.Margin = new System.Windows.Forms.Padding(10);
+            this.looper2.MaximumSize = new System.Drawing.Size(286, 267);
+            this.looper2.MinimumSize = new System.Drawing.Size(286, 267);
             this.looper2.Name = "looper2";
             this.looper2.Selected = false;
             this.looper2.Size = new System.Drawing.Size(286, 267);
@@ -78,6 +82,8 @@
             // 
             this.looper3.Location = new System.Drawing.Point(622, 10);
             this.looper3.Margin = new System.Windows.Forms.Padding(10);
+            this.looper3.MaximumSize = new System.Drawing.Size(286, 267);
+            this.looper3.MinimumSize = new System.Drawing.Size(286, 267);
             this.looper3.Name = "looper3";
             this.looper3.Selected = false;
             this.looper3.Size = new System.Drawing.Size(286, 267);
@@ -87,6 +93,8 @@
             // 
             this.looper4.Location = new System.Drawing.Point(928, 10);
             this.looper4.Margin = new System.Windows.Forms.Padding(10);
+            this.looper4.MaximumSize = new System.Drawing.Size(286, 267);
+            this.looper4.MinimumSize = new System.Drawing.Size(286, 267);
             this.looper4.Name = "looper4";
             this.looper4.Selected = false;
             this.looper4.Size = new System.Drawing.Size(286, 267);
@@ -121,6 +129,7 @@
             this.button_settings.TabIndex = 9;
             this.button_settings.Text = "Settings";
             this.button_settings.UseVisualStyleBackColor = true;
+            this.button_settings.Click += new System.EventHandler(this.button_settings_Click);
             // 
             // button_tempoTool
             // 
@@ -137,7 +146,7 @@
             // 
             this.metronome.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.metronome.Location = new System.Drawing.Point(291, 10);
-            this.metronome.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.metronome.Margin = new System.Windows.Forms.Padding(2);
             this.metronome.Name = "metronome";
             this.metronome.Size = new System.Drawing.Size(464, 81);
             this.metronome.TabIndex = 11;

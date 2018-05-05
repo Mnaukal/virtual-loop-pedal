@@ -14,6 +14,16 @@ Metronome is the main component of this application as it controls the synchroni
 
 *Tempo* - tempo lets you adjust the number of beats per minute. For example a tempo of 120 BPM means that every beat takes 0.5 seconds.
 
+*Metronome offset* - you can set the offset (in milliseconds) of metronome beeps 
+
+## Recorder
+
+Recorder is a component unifies the Loopers. It records sound from your microphone (or other input) and then passes it to Loopers. You can also listen to the audio, which is being recorded at the time, by ticking the *Listen to recording* checkbox. This is useful when the recording device has only one output which is connected to the computer.
+
+*Playback offset* - this lets you control the offset of sounds played from Loopers. You can use it to synchronize the recording with other tracks (as recording and playing back will have some latency).
+
+*Playback latency* - desired latency of the player.
+
 ## Looper
 
 Looper is a unit that allows you to record sound and then play it back looped. Loopers are independent, so you can control each of them individually.
@@ -31,11 +41,13 @@ Looper is a unit that allows you to record sound and then play it back looped. L
 3. To stop recording, press the *Stop* button.
 4. The recording will also automatically stop after the number of bars you set in the *Length* option. (The automatic stop does not work when the metronome is not running)
 
-*Play back while recording* - if it's checked, the recorded sound will automatically be played back. This is useful when the recording device has only one output which is connected to the computer.
-
 ### Playing 
 
 Playing works similarly to recording. It also waits untill the start of aligned bar. Playback will automatically loop every *Length* bars (even if the recorded sound is shorter).
+
+## Settings
+
+In settings, you can control the input and output devices. You can also set the desired sample rate.
 
 ## Keyboard Shortcuts
 |Action	|Shortcut 1|Shortcut 2|
