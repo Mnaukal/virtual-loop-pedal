@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CachedSound.cs" />
     <Compile Include="ColoredProgressBar.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -58,7 +59,12 @@
       <DependentUpon>Looper.cs</DependentUpon>
     </Compile>
     <Compile Include="LoopStream.cs" />
-    <Compile Include="Metronome.cs" />
+    <Compile Include="Metronome.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Metronome.Designer.cs">
+      <DependentUpon>Metronome.cs</DependentUpon>
+    </Compile>
     <Compile Include="Pedal.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -67,6 +73,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Recorder.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Recorder.Designer.cs">
+      <DependentUpon>Recorder.cs</DependentUpon>
+    </Compile>
     <Compile Include="TempoTool.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -75,6 +87,9 @@
     </Compile>
     <EmbeddedResource Include="Looper.resx">
       <DependentUpon>Looper.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Metronome.resx">
+      <DependentUpon>Metronome.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pedal.resx">
       <DependentUpon>Pedal.cs</DependentUpon>
@@ -88,6 +103,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Recorder.resx">
+      <DependentUpon>Recorder.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TempoTool.resx">
       <DependentUpon>TempoTool.cs</DependentUpon>
     </EmbeddedResource>

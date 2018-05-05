@@ -14,24 +14,32 @@ namespace VirtualLoopPedal
 {
     public partial class Pedal : Form
     {
-        public Metronome metronome;
         List<Looper> loopers;
         Looper selectedLooper = null;
         int looperCount = 0;
+        public WaveFormat waveFormat = WaveFormat.CreateIeeeFloatWaveFormat(8000, 1); // TODO: set in settings
 
         public Pedal()
         {
             InitializeComponent();
-            metronome = new Metronome(Convert.ToInt32(numericUpDown_metronomeTempo.Value), Convert.ToInt32(numericUpDown_metronomeMeasuse.Value));
-
-            metronome.Bar += Metronome_Bar;
-            metronome.Beat += Metronome_Beat;
 
             loopers = new List<Looper>();
             AddLooper(looper1);
             AddLooper(looper2);
             AddLooper(looper3);
             AddLooper(looper4);
+            recorder.SetParent(this);
+            metronome.SetParent(this);
+        }
+
+        public Metronome GetMetronome()
+        {
+            return metronome;
+        }
+
+        public Recorder GetRecorder()
+        {
+            return recorder;
         }
 
         void AddLooper(Looper looper)
@@ -43,41 +51,6 @@ namespace VirtualLoopPedal
             metronome.Bar += looper.Metronome_Bar;
             metronome.Beat += looper.Metronome_Beat;
             metronome.Stopped += looper.Metronome_Stop;
-        }
-
-        private void Metronome_Beat(object sender, MetronomeEventArgs e)
-        {
-            label_beat.Text = (e.BeatNumber + 1).ToString() + "/" + numericUpDown_metronomeMeasuse.Value.ToString();
-        }
-
-        private void Metronome_Bar(object sender, MetronomeEventArgs e)
-        {
-            label_bar.Text = e.BarNumber.ToString();
-        }
-
-        private void button_metronomeStart_Click(object sender, EventArgs e)
-        {
-            metronome.Start();
-        }
-
-        private void button_metronomeStop_Click(object sender, EventArgs e)
-        {
-            metronome.Stop();
-        }
-
-        private void numericUpDown_metronomeMeasure_ValueChanged(object sender, EventArgs e)
-        {
-            metronome.ChangeBeatsPerBar(Convert.ToInt32((sender as NumericUpDown).Value));
-        }
-
-        private void numericUpDown_metronomeTempo_ValueChanged(object sender, EventArgs e)
-        {
-            metronome.ChangeTempo(Convert.ToInt32((sender as NumericUpDown).Value));
-        }
-
-        private void checkBox_metronome_CheckedChanged(object sender, EventArgs e)
-        {
-            metronome.MakeSound = (sender as CheckBox).Checked;
         }
 
         /// <summary>
@@ -100,7 +73,7 @@ namespace VirtualLoopPedal
         private void button_addLooper_Click(object sender, EventArgs e)
         {
             Looper l = new Looper();
-            flowLayoutPanel1.Controls.Add(l);
+            flowLayoutPanel_loopers.Controls.Add(l);
             AddLooper(l);
         }
 
@@ -134,7 +107,7 @@ namespace VirtualLoopPedal
                     // TODO: previous looper
                     break;
                 case Keys.M:
-                    checkBox_metronome.Checked = !checkBox_metronome.Checked;
+                    metronome.checkBox_metronome.Checked = !metronome.checkBox_metronome.Checked;
                     break;
                 case Keys.R:
                 case Keys.N:
@@ -151,7 +124,12 @@ namespace VirtualLoopPedal
                     metronome.EmergencyStop();
                     break;
             }
-            //e.SuppressKeyPress = true;
+
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                Focus();
+            }
         }
 
         private void button_tempoTool_Click(object sender, EventArgs e)

@@ -1,15 +1,18 @@
-﻿using NAudio.Wave;
-using NAudio.Wave.SampleProviders;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using NAudio.Wave;
+using NAudio.Wave.SampleProviders;
 
 namespace VirtualLoopPedal
 {
-    public class Metronome
+    public partial class Metronome : UserControl
     {
         Timer timer;
         bool running;
@@ -18,10 +21,11 @@ namespace VirtualLoopPedal
         int currentBeat; // current beat in bar
         int currentBar; // number of bars since start of metronome
 
-        ISampleProvider first, other; // beats in bar
-        WaveOutEvent First, Other;
+        ISampleProvider firstBeatGen, otherBeatGen; // beats in bar
+        VolumeSampleProvider firstBeatVol, otherBeatVol;
 
         public bool MakeSound = true;
+        private Pedal parent;
 
         /// <summary>
         /// Fires on every beat
@@ -40,34 +44,47 @@ namespace VirtualLoopPedal
         /// </summary>
         public event EventHandler<MetronomeEventArgs> Started;
 
-        public Metronome(int Tempo, int BeatsPerBar)
+        public Metronome()
+        {
+            InitializeComponent();
+
+            this.Load += Metronome_Load;
+        }
+
+        private void Metronome_Load(object sender, EventArgs e)
         {
             timer = new Timer();
             timer.Tick += Timer_Tick;
 
-            BPM = Tempo;
-            BPB = BeatsPerBar;
+            BPM = Convert.ToInt32(numericUpDown_metronomeTempo.Value);
+            BPB = Convert.ToInt32(numericUpDown_metronomeMeasuse.Value);
 
-            first = new SignalGenerator()
+            firstBeatGen = new SignalGenerator(parent.waveFormat.SampleRate, parent.waveFormat.Channels)
             {
-                Gain = 0.2,
+                Gain = 1,
                 Frequency = 660,
-                Type = SignalGeneratorType.Sin
-            };//.Take(TimeSpan.FromMilliseconds(100));
+                Type = SignalGeneratorType.Sin,
+            };
 
-            other = new SignalGenerator()
+            otherBeatGen = new SignalGenerator(parent.waveFormat.SampleRate, parent.waveFormat.Channels)
             {
-                Gain = 0.2,
+                Gain = 1,
                 Frequency = 440,
                 Type = SignalGeneratorType.Sin
-            };//.Take(TimeSpan.FromMilliseconds(100));
+            };
 
-            First = new WaveOutEvent();
-            First.Init(first);
-            First.Volume = 1;
-            Other = new WaveOutEvent();
-            Other.Init(other);
-            Other.Volume = 1;
+            firstBeatVol = new VolumeSampleProvider(firstBeatGen);
+            firstBeatVol.Volume = 0;
+            otherBeatVol = new VolumeSampleProvider(otherBeatGen);
+            otherBeatVol.Volume = 0;
+
+            parent.GetRecorder().AddTrackNoOffset(firstBeatVol);
+            parent.GetRecorder().AddTrackNoOffset(otherBeatVol);
+        }
+
+        public void SetParent(Pedal parent)
+        {
+            this.parent = parent;
         }
 
         public MetronomeEventArgs MetronomeInfo()
@@ -82,11 +99,13 @@ namespace VirtualLoopPedal
 
         protected virtual void OnBeat(MetronomeEventArgs e)
         {
+            label_beat.Text = (e.BeatNumber + 1).ToString() + "/" + numericUpDown_metronomeMeasuse.Value.ToString();
             Beat?.Invoke(this, e);
         }
 
         protected virtual void OnBar(MetronomeEventArgs e)
         {
+            label_bar.Text = e.BarNumber.ToString();
             Bar?.Invoke(this, e);
         }
 
@@ -100,6 +119,31 @@ namespace VirtualLoopPedal
             Started?.Invoke(this, e);
         }
 
+        private void button_metronomeStart_Click(object sender, EventArgs e)
+        {
+            Start();
+        }
+
+        private void button_metronomeStop_Click(object sender, EventArgs e)
+        {
+            Stop();
+        }
+
+        private void numericUpDown_metronomeMeasure_ValueChanged(object sender, EventArgs e)
+        {
+            ChangeBeatsPerBar(Convert.ToInt32((sender as NumericUpDown).Value));
+        }
+
+        private void numericUpDown_metronomeTempo_ValueChanged(object sender, EventArgs e)
+        {
+            ChangeTempo(Convert.ToInt32((sender as NumericUpDown).Value));
+        }
+
+        private void checkBox_metronome_CheckedChanged(object sender, EventArgs e)
+        {
+            MakeSound = (sender as CheckBox).Checked;
+        }
+
         public void Start()
         {
             currentBeat = 0;
@@ -108,20 +152,19 @@ namespace VirtualLoopPedal
             timer.Start();
             running = true;
             OnStarted(new MetronomeEventArgs());
+
+            numericUpDown_metronomeTempo.Enabled = false;
+            numericUpDown_metronomeMeasuse.Enabled = false;
         }
 
         public void ChangeTempo(int Tempo)
         {
             BPM = Tempo;
-            if (running)
-                Start();
         }
 
         public void ChangeBeatsPerBar(int BeatsPerBar)
         {
             BPB = BeatsPerBar;
-            if (running)
-                Start();
         }
 
         public void Stop()
@@ -129,12 +172,15 @@ namespace VirtualLoopPedal
             timer.Stop();
             running = false;
             OnStopped(new MetronomeEventArgs());
+
+            numericUpDown_metronomeTempo.Enabled = true;
+            numericUpDown_metronomeMeasuse.Enabled = true;
         }
 
         public void EmergencyStop()
         {
-            First.Pause();
-            Other.Pause();
+            firstBeatVol.Volume = 0;
+            otherBeatVol.Volume = 0;
             Stop();
         }
 
@@ -151,21 +197,33 @@ namespace VirtualLoopPedal
             //Console.WriteLine(currentBeat);
             if (currentBeat == 0)
                 OnBar(new MetronomeEventArgs() { BarNumber = currentBar });
-            OnBeat(new MetronomeEventArgs() { BeatNumber = currentBeat, BarNumber = currentBar, BeatsInBar = BPB }); // maybe move after OnBar
+            OnBeat(new MetronomeEventArgs() { BeatNumber = currentBeat, BarNumber = currentBar, BeatsInBar = BPB });
 
             if (MakeSound)
             {
-                if (currentBeat == 0)
-                    First.Play();
-                else
-                    Other.Play();
-
-                Task.Delay(100).ContinueWith(t =>
+                int offset = Convert.ToInt32(numericUpDown_offset.Value);
+                while(offset < 0)
                 {
-                    First.Pause();
-                    Other.Pause();
+                    offset += Convert.ToInt32(60 * 1000 * numericUpDown_metronomeMeasuse.Value / numericUpDown_metronomeTempo.Value);
+                }
+
+                if (currentBeat == 0)
+                    Task.Delay(offset).ContinueWith(s =>
+                    {
+                        firstBeatVol.Volume = 1;
+                    });
+                else
+                    Task.Delay(offset).ContinueWith(s =>
+                    {
+                        otherBeatVol.Volume = 1;
+                    });
+
+                Task.Delay(offset + 100).ContinueWith(t =>
+                {
+                    firstBeatVol.Volume = 0;
+                    otherBeatVol.Volume = 0;
                 });
-            }           
+            }
 
             currentBeat++;
             if (currentBeat >= BPB)
@@ -180,5 +238,4 @@ namespace VirtualLoopPedal
     {
         public int BarNumber, BeatNumber, BeatsInBar;
     }
-
 }
