@@ -21,6 +21,7 @@ namespace VirtualLoopPedal
         public Driver driver;
         public int WaveOutDeviceNumber = 0;
         public int WaveInDeviceNumber = 0;
+        public int DesiredLatency = 200;
         public string AsioDeviceName;
 
         public Pedal()
@@ -41,8 +42,9 @@ namespace VirtualLoopPedal
         {
             waveFormat = WaveFormat.CreateIeeeFloatWaveFormat(Properties.Settings.Default.SampleRate, 1);
             driver = Properties.Settings.Default.Driver == "ASIO" ? Driver.ASIO : Driver.WaveEvent;
+            DesiredLatency = Properties.Settings.Default.DesiredLatency;
 
-            recorder?.Recorder_Load(this, new EventArgs());
+            recorder?.Reset();
             metronome?.Metronome_Load(this, new EventArgs());
         }
 
@@ -165,6 +167,7 @@ namespace VirtualLoopPedal
                 AsioDeviceName = settings.AsioDeviceName;
 
                 Properties.Settings.Default.SampleRate = settings.SampleRate;
+                Properties.Settings.Default.DesiredLatency = settings.DesiredLatency;
                 Properties.Settings.Default.Driver = settings.SelectedDriver == Driver.ASIO ? "ASIO" : "WaveEvent";
                 Properties.Settings.Default.Save();
 

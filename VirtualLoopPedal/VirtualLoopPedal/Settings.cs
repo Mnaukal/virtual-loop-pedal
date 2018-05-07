@@ -27,6 +27,8 @@ namespace VirtualLoopPedal
             }
         }
         public int SampleRate { get { return Convert.ToInt32(numericUpDown_sampleRate.Value); } }
+        public int DesiredLatency { get { return Convert.ToInt32(numericUpDown_latency.Value); } }
+
 
         public Settings()
         {
@@ -38,6 +40,7 @@ namespace VirtualLoopPedal
             Properties.Settings settings = Properties.Settings.Default;
 
             numericUpDown_sampleRate.Value = settings.SampleRate;
+            numericUpDown_latency.Value = settings.DesiredLatency;
             radioButton_waveOutEvent.Checked = (settings.Driver == "WaveEvent");
             radioButton_asio.Checked = (settings.Driver == "ASIO");
 

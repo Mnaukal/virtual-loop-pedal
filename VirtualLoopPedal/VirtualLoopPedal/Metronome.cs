@@ -102,6 +102,7 @@ namespace VirtualLoopPedal
 
         protected virtual void OnBeat(MetronomeEventArgs e)
         {
+            //Console.WriteLine(currentBar + "/" + currentBeat);
             label_beat.Text = (e.BeatNumber + 1).ToString() + "/" + numericUpDown_metronomeMeasuse.Value.ToString();
             Beat?.Invoke(this, e);
         }

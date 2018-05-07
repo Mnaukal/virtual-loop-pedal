@@ -191,6 +191,7 @@ namespace VirtualLoopPedal
         void StartRecording()
         {
             State = LooperState.Recording;
+            Console.WriteLine("Start Recording");
 
             button_record.Enabled = false;
             button_StopRecording.Enabled = true;
@@ -214,6 +215,7 @@ namespace VirtualLoopPedal
         void StopRecording()
         {
             State = LooperState.Waiting; // TODO: option to automatically start playing
+            Console.WriteLine("Stop Recording");
 
             button_record.Enabled = true;
             button_StopRecording.Enabled = false;
@@ -229,6 +231,7 @@ namespace VirtualLoopPedal
         void StartPlayback()
         {
             State = LooperState.Playing;
+            Console.WriteLine("Start Playback");
 
             button_play.Enabled = false;
             button_StopPlayback.Enabled = true;
@@ -278,6 +281,7 @@ namespace VirtualLoopPedal
         void StopPlayback()
         {
             State = LooperState.Waiting;
+            Console.WriteLine("Stop Playback");
 
             button_play.Enabled = true;
             button_StopPlayback.Enabled = false;
@@ -286,6 +290,10 @@ namespace VirtualLoopPedal
 
             parent.GetRecorder().RemoveTrack(sampleProvider1);
             parent.GetRecorder().RemoveTrack(sampleProvider2);
+            if (reader1 != null)
+                reader1.Position = reader1.Length;
+            if (reader2 != null)
+                reader2.Position = reader2.Length;
         }
 
         /// <summary>

@@ -14,18 +14,6 @@ namespace VirtualLoopPedal
 {
     public partial class Recorder : UserControl
     {
-        public int DesiredLatency
-        {
-            get { return desiredLatency; }
-            set
-            {
-                desiredLatency = value;
-                if (player != null && parent?.driver == Driver.WaveEvent)
-                    (player as WaveOutEvent).DesiredLatency = desiredLatency;
-            }
-        }
-        private int desiredLatency = 100;
-
         MixingSampleProvider mixer;
         IWaveIn recorder;
         BufferedWaveProvider buffer;
@@ -55,35 +43,44 @@ namespace VirtualLoopPedal
             Write?.Invoke(this, e);
         }
 
-        public void Recorder_Load(object sender, EventArgs e)
+        void Recorder_Load(object sender, EventArgs e)
         {
             if (parent == null)
                 return;
 
-            if(parent.driver == Driver.WaveEvent)
-            {
-                recorder = new WaveInEvent() { DeviceNumber = parent.WaveInDeviceNumber, WaveFormat = parent.waveFormat };
-                player = new WaveOutEvent() { DeviceNumber = parent.WaveOutDeviceNumber };
-            }
-            else // asio
-            {
-
-            }
-
-            recorder.DataAvailable += Recorder_DataAvailable;
-            recorder.RecordingStopped += Recorder_RecordingStopped;
-
-            player.PlaybackStopped += Player_PlaybackStopped;
-            DesiredLatency = desiredLatency;
-
-            buffer = new BufferedWaveProvider(recorder.WaveFormat);
-            mixer = new MixingSampleProvider(recorder.WaveFormat);
+            buffer = new BufferedWaveProvider(parent.waveFormat);
+            mixer = new MixingSampleProvider(parent.waveFormat);
 
             meter = new MeteringSampleProvider(buffer.ToSampleProvider());
             meter.StreamVolume += Notifier_StreamVolume;
 
             mixer.ReadFully = true;
             mixer.AddMixerInput(meter);
+
+            InitializePlayer();
+        }
+
+        public void Reset()
+        {
+            player?.Dispose();
+            player = null;
+            recorder?.Dispose();
+            recorder = null;
+
+            Recorder_Load(this, new EventArgs());
+        }
+
+        void InitializePlayer()
+        {
+            recorder = new WaveInEvent() { DeviceNumber = parent.WaveInDeviceNumber, WaveFormat = parent.waveFormat };
+            WaveOutEvent playerWave = new WaveOutEvent() { DeviceNumber = parent.WaveOutDeviceNumber };
+            player = playerWave;
+
+            recorder.DataAvailable += Recorder_DataAvailable;
+            recorder.RecordingStopped += Recorder_RecordingStopped;
+            player.PlaybackStopped += Player_PlaybackStopped;
+
+            playerWave.DesiredLatency = parent.DesiredLatency;
             player.Init(mixer);
             player.Play();
 
@@ -135,6 +132,7 @@ namespace VirtualLoopPedal
         {
             try
             {
+                Console.WriteLine("addind " + provider.ToString());
                 mixer.AddMixerInput(provider);
             }
             catch (ArgumentException ae)
@@ -145,12 +143,8 @@ namespace VirtualLoopPedal
 
         public void RemoveTrack(ISampleProvider provider)
         {
+            Console.WriteLine("removing " + provider?.ToString());
             mixer.RemoveMixerInput(provider);
-        }
-
-        private void numericUpDown_latency_ValueChanged(object sender, EventArgs e)
-        {
-            DesiredLatency = Convert.ToInt32(numericUpDown_latency.Value);
         }
     }
 }

@@ -61,8 +61,10 @@
             this.groupBox_metronome.Controls.Add(this.numericUpDown_metronomeMeasuse);
             this.groupBox_metronome.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox_metronome.Location = new System.Drawing.Point(0, 0);
+            this.groupBox_metronome.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox_metronome.Name = "groupBox_metronome";
-            this.groupBox_metronome.Size = new System.Drawing.Size(464, 81);
+            this.groupBox_metronome.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox_metronome.Size = new System.Drawing.Size(625, 100);
             this.groupBox_metronome.TabIndex = 6;
             this.groupBox_metronome.TabStop = false;
             this.groupBox_metronome.Text = "Metronome";
@@ -70,17 +72,16 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(311, 50);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Location = new System.Drawing.Point(426, 61);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(92, 13);
+            this.label1.Size = new System.Drawing.Size(122, 17);
             this.label1.TabIndex = 8;
             this.label1.Text = "Metronome offset:";
             // 
             // numericUpDown_offset
             // 
-            this.numericUpDown_offset.Location = new System.Drawing.Point(407, 49);
-            this.numericUpDown_offset.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.numericUpDown_offset.Location = new System.Drawing.Point(554, 59);
+            this.numericUpDown_offset.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.numericUpDown_offset.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -92,16 +93,17 @@
             0,
             -2147483648});
             this.numericUpDown_offset.Name = "numericUpDown_offset";
-            this.numericUpDown_offset.Size = new System.Drawing.Size(48, 20);
+            this.numericUpDown_offset.Size = new System.Drawing.Size(64, 22);
             this.numericUpDown_offset.TabIndex = 7;
             // 
             // label_beat
             // 
             this.label_beat.AutoSize = true;
             this.label_beat.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label_beat.Location = new System.Drawing.Point(284, 48);
+            this.label_beat.Location = new System.Drawing.Point(379, 59);
+            this.label_beat.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_beat.Name = "label_beat";
-            this.label_beat.Size = new System.Drawing.Size(17, 17);
+            this.label_beat.Size = new System.Drawing.Size(19, 20);
             this.label_beat.TabIndex = 6;
             this.label_beat.Text = "0";
             this.label_beat.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -110,9 +112,10 @@
             // 
             this.label_bar.AutoSize = true;
             this.label_bar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label_bar.Location = new System.Drawing.Point(284, 22);
+            this.label_bar.Location = new System.Drawing.Point(379, 27);
+            this.label_bar.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_bar.Name = "label_bar";
-            this.label_bar.Size = new System.Drawing.Size(17, 17);
+            this.label_bar.Size = new System.Drawing.Size(19, 20);
             this.label_bar.TabIndex = 6;
             this.label_bar.Text = "0";
             this.label_bar.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -122,9 +125,10 @@
             this.checkBox_metronome.AutoSize = true;
             this.checkBox_metronome.Checked = true;
             this.checkBox_metronome.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_metronome.Location = new System.Drawing.Point(314, 24);
+            this.checkBox_metronome.Location = new System.Drawing.Point(430, 29);
+            this.checkBox_metronome.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBox_metronome.Name = "checkBox_metronome";
-            this.checkBox_metronome.Size = new System.Drawing.Size(146, 17);
+            this.checkBox_metronome.Size = new System.Drawing.Size(189, 21);
             this.checkBox_metronome.TabIndex = 2;
             this.checkBox_metronome.Text = "Enable metronome sound";
             this.checkBox_metronome.UseVisualStyleBackColor = true;
@@ -133,18 +137,20 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 24);
+            this.label3.Location = new System.Drawing.Point(8, 30);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(48, 13);
+            this.label3.Size = new System.Drawing.Size(63, 17);
             this.label3.TabIndex = 4;
             this.label3.Text = "Measure";
             // 
             // button_metronomeStop
             // 
             this.button_metronomeStop.BackColor = System.Drawing.Color.Crimson;
-            this.button_metronomeStop.Location = new System.Drawing.Point(193, 20);
+            this.button_metronomeStop.Location = new System.Drawing.Point(257, 25);
+            this.button_metronomeStop.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button_metronomeStop.Name = "button_metronomeStop";
-            this.button_metronomeStop.Size = new System.Drawing.Size(85, 49);
+            this.button_metronomeStop.Size = new System.Drawing.Size(113, 60);
             this.button_metronomeStop.TabIndex = 1;
             this.button_metronomeStop.Text = "Stop";
             this.button_metronomeStop.UseVisualStyleBackColor = false;
@@ -157,7 +163,8 @@
             0,
             0,
             0});
-            this.numericUpDown_metronomeTempo.Location = new System.Drawing.Point(52, 48);
+            this.numericUpDown_metronomeTempo.Location = new System.Drawing.Point(69, 59);
+            this.numericUpDown_metronomeTempo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDown_metronomeTempo.Maximum = new decimal(new int[] {
             240,
             0,
@@ -169,7 +176,7 @@
             0,
             0});
             this.numericUpDown_metronomeTempo.Name = "numericUpDown_metronomeTempo";
-            this.numericUpDown_metronomeTempo.Size = new System.Drawing.Size(44, 20);
+            this.numericUpDown_metronomeTempo.Size = new System.Drawing.Size(59, 22);
             this.numericUpDown_metronomeTempo.TabIndex = 4;
             this.numericUpDown_metronomeTempo.Value = new decimal(new int[] {
             120,
@@ -181,9 +188,10 @@
             // button_metronomeStart
             // 
             this.button_metronomeStart.BackColor = System.Drawing.Color.LightGreen;
-            this.button_metronomeStart.Location = new System.Drawing.Point(102, 20);
+            this.button_metronomeStart.Location = new System.Drawing.Point(136, 25);
+            this.button_metronomeStart.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button_metronomeStart.Name = "button_metronomeStart";
-            this.button_metronomeStart.Size = new System.Drawing.Size(85, 49);
+            this.button_metronomeStart.Size = new System.Drawing.Size(113, 60);
             this.button_metronomeStart.TabIndex = 0;
             this.button_metronomeStart.Text = "Start";
             this.button_metronomeStart.UseVisualStyleBackColor = false;
@@ -192,15 +200,17 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 50);
+            this.label2.Location = new System.Drawing.Point(8, 62);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(40, 13);
+            this.label2.Size = new System.Drawing.Size(52, 17);
             this.label2.TabIndex = 4;
             this.label2.Text = "Tempo";
             // 
             // numericUpDown_metronomeMeasuse
             // 
-            this.numericUpDown_metronomeMeasuse.Location = new System.Drawing.Point(60, 22);
+            this.numericUpDown_metronomeMeasuse.Location = new System.Drawing.Point(80, 27);
+            this.numericUpDown_metronomeMeasuse.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDown_metronomeMeasuse.Maximum = new decimal(new int[] {
             12,
             0,
@@ -212,7 +222,7 @@
             0,
             0});
             this.numericUpDown_metronomeMeasuse.Name = "numericUpDown_metronomeMeasuse";
-            this.numericUpDown_metronomeMeasuse.Size = new System.Drawing.Size(36, 20);
+            this.numericUpDown_metronomeMeasuse.Size = new System.Drawing.Size(48, 22);
             this.numericUpDown_metronomeMeasuse.TabIndex = 3;
             this.numericUpDown_metronomeMeasuse.Value = new decimal(new int[] {
             4,
@@ -223,12 +233,12 @@
             // 
             // Metronome
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox_metronome);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Metronome";
-            this.Size = new System.Drawing.Size(464, 81);
+            this.Size = new System.Drawing.Size(625, 100);
             this.groupBox_metronome.ResumeLayout(false);
             this.groupBox_metronome.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_offset)).EndInit();

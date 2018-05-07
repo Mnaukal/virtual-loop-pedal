@@ -22,8 +22,6 @@ Recorder is a component unifies the Loopers. It records sound from your micropho
 
 *Playback offset* - this lets you control the offset of sounds played from Loopers. You can use it to synchronize the recording with other tracks (as recording and playing back will have some latency).
 
-*Playback latency* - desired latency of the player.
-
 ## Looper
 
 Looper is a unit that allows you to record sound and then play it back looped. Loopers are independent, so you can control each of them individually.
@@ -47,7 +45,15 @@ Playing works similarly to recording. It also waits untill the start of aligned 
 
 ## Settings
 
-In settings, you can control the input and output devices. You can also set the desired sample rate.
+In settings, you can control the input and output devices. You can also set the desired sample rate and latency.
+
+*Sample Rate* - number of audio samples per second. Higher sample rate means higher CPU usage and bigger temporary files.
+
+*Playback latency* - desired latency of the player in milliseconds. Setting this value below 100 may cause trouble.
+
+## Troubleshooting
+
+Please note that the input sound from your microphone may be modified by Windows or other application. If you don't hear it well, try opening the sound settings in Windows and disable addons and modifiers.
 
 ## Keyboard Shortcuts
 |Action	|Shortcut 1|Shortcut 2|
