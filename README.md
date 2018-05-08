@@ -51,6 +51,17 @@ In settings, you can control the input and output devices. You can also set the 
 
 *Playback latency* - desired latency of the player in milliseconds. Setting this value below 100 may cause trouble.
 
+*Buffer Size* - length of audio buffer in milliseconds. It's recommended to keep this on 100.
+
+### Input and Output devices
+
+* WaveEvent - standard driver for audio, should work on all platforms
+* Wasapi - newer Windows audio driver, should be able to produce lower latency, but probably won't work with sample rate bellow 44,100 Hz.
+  * Exclusive mode - Wasapi can work in Shared (default) or Exclusive mode, which should have lower latency, but blocks other apps from communicating with soundcard (so no other app will be able to play any audio).
+* *ASIO* - *not implemented yet, might come in the future*
+
+For each driver, you can select the input and output device you want. 
+
 ## Troubleshooting
 
 Please note that the input sound from your microphone may be modified by Windows or other application. If you don't hear it well, try opening the sound settings in Windows and disable addons and modifiers.

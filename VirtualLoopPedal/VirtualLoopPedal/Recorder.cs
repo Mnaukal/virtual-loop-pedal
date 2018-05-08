@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using NAudio.Wave.SampleProviders;
 using NAudio.Wave;
+using NAudio.CoreAudioApi;
 
 namespace VirtualLoopPedal
 {
@@ -57,7 +58,20 @@ namespace VirtualLoopPedal
             mixer.ReadFully = true;
             mixer.AddMixerInput(meter);
 
-            InitializePlayer();
+            try
+            {
+                if (parent.settings.SelectedDriver == Driver.ASIO)
+                    throw new NotImplementedException("ASIO driver is not implemented.");
+                else if (parent.settings.SelectedDriver == Driver.Wasapi)
+                    InitializePlayerWasapi();
+                else
+                    InitializePlayerWave();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\nTry to select different audio device or sample rate.", "Error starting playback.");
+                parent.button_settings_Click(this, new EventArgs());
+            }
         }
 
         public void Reset()
@@ -70,17 +84,33 @@ namespace VirtualLoopPedal
             Recorder_Load(this, new EventArgs());
         }
 
-        void InitializePlayer()
-        {
-            recorder = new WaveInEvent() { DeviceNumber = parent.WaveInDeviceNumber, WaveFormat = parent.waveFormat };
-            WaveOutEvent playerWave = new WaveOutEvent() { DeviceNumber = parent.WaveOutDeviceNumber };
-            player = playerWave;
+        void InitializePlayerWave()
+        {            
+            recorder = new WaveInEvent() { DeviceNumber = parent.settings.WaveInDeviceNumber, WaveFormat = parent.waveFormat, BufferMilliseconds = parent.settings.BufferSize };
+            player = new WaveOutEvent() {
+                DeviceNumber = parent.settings.WaveOutDeviceNumber,
+                DesiredLatency = parent.settings.DesiredLatency
+            };
 
             recorder.DataAvailable += Recorder_DataAvailable;
-            recorder.RecordingStopped += Recorder_RecordingStopped;
-            player.PlaybackStopped += Player_PlaybackStopped;
 
-            playerWave.DesiredLatency = parent.DesiredLatency;
+            player.Init(mixer);
+            player.Play();
+
+            recorder.StartRecording();            
+        }
+
+        void InitializePlayerWasapi()
+        {
+            player = new WasapiOut(parent.settings.WasapiOutDevice, parent.settings.ShareMode, true, parent.settings.DesiredLatency);
+            recorder = new WasapiCapture(parent.settings.WasapiInDevice, true, parent.settings.BufferSize)
+            {
+                WaveFormat = parent.waveFormat,
+                ShareMode = parent.settings.ShareMode
+            };
+
+            recorder.DataAvailable += Recorder_DataAvailable;
+
             player.Init(mixer);
             player.Play();
 
@@ -92,15 +122,19 @@ namespace VirtualLoopPedal
             this.parent = parent;
         }
 
+        protected override void OnHandleDestroyed(EventArgs e)
+        {
+            player?.Stop();
+            player?.Dispose();
+            recorder?.StopRecording();
+            recorder?.Dispose();
+
+            base.OnHandleDestroyed(e);
+        }
+
         private void Notifier_StreamVolume(object sender, StreamVolumeEventArgs e)
         {
             volumeMeter.Amplitude = e.MaxSampleValues[0];
-        }
-
-        private void Player_PlaybackStopped(object sender, StoppedEventArgs e)
-        {
-            // TODO: nothing?
-            //throw new NotImplementedException();
         }
 
         private void Recorder_DataAvailable(object sender, WaveInEventArgs e)
@@ -111,15 +145,14 @@ namespace VirtualLoopPedal
             OnWrite(e); // connection to Loopers
         }
 
-        private void Recorder_RecordingStopped(object sender, StoppedEventArgs e)
-        {
-            //throw new NotImplementedException();
-            //recorder.Dispose();
-        }
-
         private void checkBox_playback_CheckedChanged(object sender, EventArgs e)
         {
             listen = checkBox_playback.Checked;
+        }
+
+        public void DisableListen()
+        {
+            checkBox_playback.Checked = false;
         }
 
         public void AddTrack(OffsetSampleProvider provider)
@@ -132,7 +165,7 @@ namespace VirtualLoopPedal
         {
             try
             {
-                Console.WriteLine("addind " + provider.ToString());
+                //Console.WriteLine("addind " + provider.ToString());
                 mixer.AddMixerInput(provider);
             }
             catch (ArgumentException ae)
@@ -143,7 +176,7 @@ namespace VirtualLoopPedal
 
         public void RemoveTrack(ISampleProvider provider)
         {
-            Console.WriteLine("removing " + provider?.ToString());
+            //Console.WriteLine("removing " + provider?.ToString());
             mixer.RemoveMixerInput(provider);
         }
     }

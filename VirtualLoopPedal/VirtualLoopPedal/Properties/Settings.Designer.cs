@@ -58,5 +58,17 @@ namespace VirtualLoopPedal.Properties {
                 this["DesiredLatency"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int BufferSize {
+            get {
+                return ((int)(this["BufferSize"]));
+            }
+            set {
+                this["BufferSize"] = value;
+            }
+        }
     }
 }

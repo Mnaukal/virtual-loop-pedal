@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using NAudio.CoreAudioApi;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 
@@ -18,11 +19,7 @@ namespace VirtualLoopPedal
         Looper selectedLooper = null;
         int looperCount = 0;
         public WaveFormat waveFormat;
-        public Driver driver;
-        public int WaveOutDeviceNumber = 0;
-        public int WaveInDeviceNumber = 0;
-        public int DesiredLatency = 200;
-        public string AsioDeviceName;
+        public Settings settings = new Settings();
 
         public Pedal()
         {
@@ -40,9 +37,9 @@ namespace VirtualLoopPedal
 
         public void Reset()
         {
-            waveFormat = WaveFormat.CreateIeeeFloatWaveFormat(Properties.Settings.Default.SampleRate, 1);
-            driver = Properties.Settings.Default.Driver == "ASIO" ? Driver.ASIO : Driver.WaveEvent;
-            DesiredLatency = Properties.Settings.Default.DesiredLatency;
+            waveFormat = WaveFormat.CreateIeeeFloatWaveFormat(Properties.Settings.Default.SampleRate, 2);
+            //driver = Properties.Settings.Default.Driver == "ASIO" ? Driver.ASIO : Driver.WaveEvent;
+            //DesiredLatency = Properties.Settings.Default.DesiredLatency;
 
             recorder?.Reset();
             metronome?.Metronome_Load(this, new EventArgs());
@@ -154,21 +151,21 @@ namespace VirtualLoopPedal
             tempoTool.Show();
         }
 
-        private void button_settings_Click(object sender, EventArgs e)
+        public void button_settings_Click(object sender, EventArgs e)
         {
+            recorder.DisableListen();
             metronome.EmergencyStop();
-            Settings settings = new Settings();
-            DialogResult result = settings.ShowDialog(this);
+            Settings settingsNew = new Settings();
+            DialogResult result = settingsNew.ShowDialog(this);
 
             if(result == DialogResult.OK)
             {
-                WaveOutDeviceNumber = settings.WaveOutDeviceNumber;
-                WaveInDeviceNumber = settings.WaveInDeviceNumber;
-                AsioDeviceName = settings.AsioDeviceName;
+                settings = settingsNew;
 
                 Properties.Settings.Default.SampleRate = settings.SampleRate;
                 Properties.Settings.Default.DesiredLatency = settings.DesiredLatency;
-                Properties.Settings.Default.Driver = settings.SelectedDriver == Driver.ASIO ? "ASIO" : "WaveEvent";
+                Properties.Settings.Default.BufferSize = settings.BufferSize;
+                Properties.Settings.Default.Driver = settings.SelectedDriver.ToString();
                 Properties.Settings.Default.Save();
 
                 Reset();
@@ -176,5 +173,5 @@ namespace VirtualLoopPedal
         }
     }
 
-    public enum Driver { WaveEvent, ASIO }
+    public enum Driver { WaveEvent, ASIO, Wasapi }
 }

@@ -173,7 +173,7 @@ namespace VirtualLoopPedal
 
         public void Stop()
         {
-            timer.Stop();
+            timer?.Stop();
             running = false;
             OnStopped(new MetronomeEventArgs());
 
@@ -183,8 +183,10 @@ namespace VirtualLoopPedal
 
         public void EmergencyStop()
         {
-            firstBeatVol.Volume = 0;
-            otherBeatVol.Volume = 0;
+            if (firstBeatVol != null)
+                firstBeatVol.Volume = 0;
+            if (otherBeatVol != null)
+                otherBeatVol.Volume = 0;
             Stop();
         }
 
