@@ -20,9 +20,11 @@ namespace VirtualLoopPedal
 
         public TempoTool()
         {
+            Logger.Log("Initializing TempoTool");
             InitializeComponent();
             stopwatch = new Stopwatch();
             Reset();
+            Logger.Log("TempoTool initialized successfully");
         }
 
         private void button_reset_Click(object sender, EventArgs e)
@@ -44,6 +46,7 @@ namespace VirtualLoopPedal
 
         void Reset()
         {
+            // reset stopwatch
             stopwatch.Reset();
             textBox_average.Text = "";
             textBox_tempo.Text = "";
@@ -56,6 +59,7 @@ namespace VirtualLoopPedal
 
         void Start()
         {
+            // start measuring tempo
             button_start.Text = "Measure";
             stopwatch.Start();
             running = true;
@@ -63,6 +67,7 @@ namespace VirtualLoopPedal
 
         void Measure()
         {
+            // called when user click button to save how long it took from last click and compute tempo
             label_times.Text += "\n" + (stopwatch.ElapsedMilliseconds / 1000f).ToString("0.00");
             totalMiliseconds += stopwatch.ElapsedMilliseconds;
             numberOfTimes++;

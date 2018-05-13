@@ -23,6 +23,8 @@ namespace VirtualLoopPedal
 
         public Pedal()
         {
+            Logger.Log("Initilizing Pedal");
+
             Reset();
             InitializeComponent();
 
@@ -33,13 +35,13 @@ namespace VirtualLoopPedal
             AddLooper(looper4);
             recorder.SetParent(this);
             metronome.SetParent(this);
+            Logger.Log("Pedal initialized successfully");
         }
 
         public void Reset()
         {
+            Logger.Log("Reseting Pedal");
             waveFormat = WaveFormat.CreateIeeeFloatWaveFormat(Properties.Settings.Default.SampleRate, 2);
-            //driver = Properties.Settings.Default.Driver == "ASIO" ? Driver.ASIO : Driver.WaveEvent;
-            //DesiredLatency = Properties.Settings.Default.DesiredLatency;
 
             recorder?.Reset();
             metronome?.Metronome_Load(this, new EventArgs());
@@ -57,6 +59,8 @@ namespace VirtualLoopPedal
 
         void AddLooper(Looper looper)
         {
+            Logger.Log("Adding Looper");
+
             loopers.Add(looper);
             looper.SetName("Looper " + ++looperCount);
             looper.Click += looper_Click;
@@ -64,6 +68,8 @@ namespace VirtualLoopPedal
             metronome.Bar += looper.Metronome_Bar;
             metronome.Beat += looper.Metronome_Beat;
             metronome.Stopped += looper.Metronome_Stop;
+
+            Logger.Log("Looper added successfully");
         }
 
         /// <summary>
@@ -170,6 +176,11 @@ namespace VirtualLoopPedal
 
                 Reset();
             }
+        }
+
+        private void Pedal_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Logger.Log("Closing");
         }
     }
 

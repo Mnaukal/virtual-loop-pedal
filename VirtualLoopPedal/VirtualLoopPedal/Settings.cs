@@ -12,8 +12,12 @@ using System.Windows.Forms;
 
 namespace VirtualLoopPedal
 {
+    /// <summary>
+    /// Form for displaying settings and also making them accesible for other classes
+    /// </summary>
     public partial class Settings : Form
     {
+        // public properties to access settings from all classes
         public int WaveOutDeviceNumber { get { return comboBox_outputWave.SelectedIndex - 1; } }
         public int WaveInDeviceNumber { get { return comboBox_inputWave.SelectedIndex - 1; } }
         public string AsioDeviceName { get { return (string)comboBox_asioDriver.SelectedItem; } }
@@ -38,12 +42,14 @@ namespace VirtualLoopPedal
 
         public Settings()
         {
+            Logger.Log("Initializing Settings");
             InitializeComponent();
             linkLabel1.Links.Add(new LinkLabel.Link() { LinkData = "https://github.com/Mnaukal/virtual-loop-pedal" });
             linkLabel2.Links.Add(new LinkLabel.Link() { LinkData = "https://github.com/naudio/NAudio" });
 
             Properties.Settings settings = Properties.Settings.Default;
 
+            // load saved values
             numericUpDown_sampleRate.Value = settings.SampleRate;
             numericUpDown_latency.Value = settings.DesiredLatency;
             numericUpDown_bufferSize.Value = settings.BufferSize;
@@ -51,7 +57,8 @@ namespace VirtualLoopPedal
             radioButton_asio.Checked = (settings.Driver == "ASIO");
             radioButton_wasapi.Checked = (settings.Driver == "Wasapi");
 
-            // Wave devices
+            // enumerate WaveOut devices
+            Logger.Log("Loading WaveOut devices");
             if (WaveOut.DeviceCount > 0)
             {
                 for (var deviceId = -1; deviceId < WaveOut.DeviceCount; deviceId++)
@@ -61,7 +68,10 @@ namespace VirtualLoopPedal
                 }
                 comboBox_outputWave.SelectedIndex = (Owner as Pedal) != null ? (Owner as Pedal).settings.WaveOutDeviceNumber + 1 : 0;
             }
+            Logger.Log("WaveOut devices loaded");
 
+            // enumerate WaveIn devices
+            Logger.Log("Loading WaveIn devices");
             if (WaveIn.DeviceCount > 0)
             {
                 for (var deviceId = -1; deviceId < WaveIn.DeviceCount; deviceId++)
@@ -71,16 +81,29 @@ namespace VirtualLoopPedal
                 }
                 comboBox_inputWave.SelectedIndex = (Owner as Pedal) != null ? (Owner as Pedal).settings.WaveInDeviceNumber + 1 : 0;
             }
+            Logger.Log("WaveIn devices loaded");
 
-            // asio
-            var asioDriverNames = AsioOut.GetDriverNames();
-            foreach (string driverName in asioDriverNames)
+            // enumerate ASIO devices
+            Logger.Log("Loading ASIO devices");
+            try
             {
-                comboBox_asioDriver.Items.Add(driverName);
+                var asioDriverNames = AsioOut.GetDriverNames();
+                foreach (string driverName in asioDriverNames)
+                {
+                    comboBox_asioDriver.Items.Add(driverName);
+                }
+                comboBox_asioDriver.SelectedIndex = 0;
+                Logger.Log("ASIO devices loaded");
             }
-            comboBox_asioDriver.SelectedIndex = 0;
+            catch
+            {
+                // ASIO driver not available
+                label_noAsio.Visible = true;
+                Logger.Log("ASIO driver not available, disabling ASIO");
+            }
 
-            // wasapi
+            // enumerate WASAPI devices
+            Logger.Log("Loading WASAPI devices");
             MMDeviceEnumerator enumerator = new MMDeviceEnumerator();
             MMDeviceCollection endPoints = enumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active);
             List<WasapiDeviceComboItem> outComboItems = new List<WasapiDeviceComboItem>();
@@ -108,7 +131,9 @@ namespace VirtualLoopPedal
             }
             comboBox_inputWasapi.DisplayMember = "Description";
             comboBox_inputWasapi.ValueMember = "Device";
-            comboBox_inputWasapi.DataSource = inComboItems; 
+            comboBox_inputWasapi.DataSource = inComboItems;
+            Logger.Log("WASAPI devices loaded");
+            Logger.Log("Settings initialized successfully");
         }
 
         private void button_asioPanel_Click(object sender, EventArgs e)
@@ -147,6 +172,9 @@ namespace VirtualLoopPedal
             EnablePanelContents(panel_wasapi, true);
         }
 
+        /// <summary>
+        /// Enable / Disable contents of a panel
+        /// </summary>
         private void EnablePanelContents(Panel panel, bool enabled)
         {
             foreach (Control ctrl in panel.Controls)

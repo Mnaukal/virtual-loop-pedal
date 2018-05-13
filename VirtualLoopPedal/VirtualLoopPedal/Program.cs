@@ -9,7 +9,7 @@ namespace VirtualLoopPedal
     static class Program
     {
         /// <summary>
-        /// Hlavní vstupní bod aplikace.
+        /// Application entry point.
         /// </summary>
         [STAThread]
         static void Main()

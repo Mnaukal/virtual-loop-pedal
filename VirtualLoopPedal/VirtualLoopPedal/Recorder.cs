@@ -24,6 +24,9 @@ namespace VirtualLoopPedal
         bool listen = false;
         private Pedal parent;
 
+        /// <summary>
+        /// fires on getting samples, so you can write them to file
+        /// </summary>
         public event EventHandler<WaveInEventArgs> Write;
 
         public event EventHandler<SampleProviderEventArgs> MixerInputEnded
@@ -34,9 +37,12 @@ namespace VirtualLoopPedal
 
         public Recorder()
         {
+            Logger.Log("Initializing Recorder");
+
             InitializeComponent();
 
             this.Load += Recorder_Load;
+            Logger.Log("Recorder initialized successfully");
         }
 
         protected virtual void OnWrite(WaveInEventArgs e)
@@ -72,6 +78,7 @@ namespace VirtualLoopPedal
                 MessageBox.Show(ex.Message + "\nTry to select different audio device or sample rate.", "Error starting playback.");
                 parent.button_settings_Click(this, new EventArgs());
             }
+            Logger.Log("Recorder loaded successfully");
         }
 
         public void Reset()
@@ -155,12 +162,20 @@ namespace VirtualLoopPedal
             checkBox_playback.Checked = false;
         }
 
+        /// <summary>
+        /// Add track to the mixer (to play it) with offset
+        /// </summary>
+        /// <param name="provider">Track to add</param>
         public void AddTrack(OffsetSampleProvider provider)
         {
             provider.DelayBy = TimeSpan.FromMilliseconds(Convert.ToDouble(numericUpDown_offset.Value));
             AddTrackNoOffset(provider);
         }
 
+        /// <summary>
+        /// Add track to the mixer (to play it)
+        /// </summary>
+        /// <param name="provider">Track to add</param>
         public void AddTrackNoOffset(ISampleProvider provider)
         {
             try
@@ -168,12 +183,16 @@ namespace VirtualLoopPedal
                 //Console.WriteLine("addind " + provider.ToString());
                 mixer.AddMixerInput(provider);
             }
-            catch (ArgumentException ae)
+            catch (ArgumentException)
             {
                 MessageBox.Show("File not recorded using Virtual Loop Pedal or recorded with different settings.", "Wrong file format");
             }
         }
 
+        /// <summary>
+        /// Remove track from the mixer (stop playing)
+        /// </summary>
+        /// <param name="provider">Track to remove</param>
         public void RemoveTrack(ISampleProvider provider)
         {
             //Console.WriteLine("removing " + provider?.ToString());

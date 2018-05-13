@@ -182,6 +182,7 @@
             this.MinimumSize = new System.Drawing.Size(1183, 509);
             this.Name = "Pedal";
             this.Text = "Virtual Loop Pedal";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Pedal_FormClosed);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Pedal_KeyDown);
             this.flowLayoutPanel_loopers.ResumeLayout(false);
             this.ResumeLayout(false);

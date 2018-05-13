@@ -81,11 +81,13 @@ namespace VirtualLoopPedal
 
         public Looper()
         {
+            Logger.Log("Initializing Looper");
             InitializeComponent();
 
             this.Load += Looper_Load;
 
             WireClickOfChildren(this);
+            Logger.Log("Looper " + Name + " initialized successfully");
         }
 
         private void Looper_Load(object sender, EventArgs e)
@@ -191,7 +193,7 @@ namespace VirtualLoopPedal
         void StartRecording()
         {
             State = LooperState.Recording;
-            //Console.WriteLine("Start Recording");
+            Logger.Log(Name + " - starting recording");
 
             button_record.Enabled = false;
             button_StopRecording.Enabled = true;
@@ -215,7 +217,7 @@ namespace VirtualLoopPedal
         void StopRecording()
         {
             State = LooperState.Waiting; // TODO: option to automatically start playing
-            //Console.WriteLine("Stop Recording");
+            Logger.Log(Name + " - stopping recording");
 
             button_record.Enabled = true;
             button_StopRecording.Enabled = false;
@@ -231,7 +233,7 @@ namespace VirtualLoopPedal
         void StartPlayback()
         {
             State = LooperState.Playing;
-            //Console.WriteLine("Start Playback");
+            Logger.Log(Name + " - starting playback");
 
             button_play.Enabled = false;
             button_StopPlayback.Enabled = true;
@@ -281,7 +283,7 @@ namespace VirtualLoopPedal
         void StopPlayback()
         {
             State = LooperState.Waiting;
-            //Console.WriteLine("Stop Playback");
+            Logger.Log(Name + " - stopping playback");
 
             button_play.Enabled = true;
             button_StopPlayback.Enabled = false;
@@ -297,7 +299,8 @@ namespace VirtualLoopPedal
         }
 
         /// <summary>
-        /// Wire this to base metronome
+        /// Wire this to base metronome.
+        /// Changes state of Looper (idle, recording, playing) at the start of bar
         /// </summary>
         public void Metronome_Bar(object sender, MetronomeEventArgs e) 
         {
@@ -336,6 +339,10 @@ namespace VirtualLoopPedal
             }
         }
 
+        /// <summary>
+        /// Wire this to metronome.
+        /// Displays bar (phrase) progrees on the progressbar.
+        /// </summary>
         public void Metronome_Beat(object sender, MetronomeEventArgs e)
         {
             int length = Convert.ToInt32(numericUpDown_length.Value);

@@ -52,6 +52,7 @@
     <Compile Include="ColoredProgressBar.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Logger.cs" />
     <Compile Include="Looper.cs">
       <SubType>UserControl</SubType>
     </Compile>

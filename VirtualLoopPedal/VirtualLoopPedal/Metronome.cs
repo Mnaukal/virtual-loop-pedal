@@ -46,9 +46,11 @@ namespace VirtualLoopPedal
 
         public Metronome()
         {
+            Logger.Log("Initializing Metronome");
             InitializeComponent();
 
             this.Load += Metronome_Load;
+            Logger.Log("Metronome initialized successfully");
         }
 
         public void Metronome_Load(object sender, EventArgs e)
@@ -83,6 +85,7 @@ namespace VirtualLoopPedal
                 parent.GetRecorder().AddTrackNoOffset(firstBeatVol);
                 parent.GetRecorder().AddTrackNoOffset(otherBeatVol);
             }
+            Logger.Log("Metronome loaded successfully");
         }
 
         public void SetParent(Pedal parent)
@@ -150,6 +153,7 @@ namespace VirtualLoopPedal
 
         public void Start()
         {
+            Logger.Log("Starting Metronome");
             currentBeat = 0;
             currentBar = 1;
             timer.Interval = 60000 / BPM;
@@ -173,6 +177,8 @@ namespace VirtualLoopPedal
 
         public void Stop()
         {
+            Logger.Log("Stopping Metronome");
+
             timer?.Stop();
             running = false;
             OnStopped(new MetronomeEventArgs());

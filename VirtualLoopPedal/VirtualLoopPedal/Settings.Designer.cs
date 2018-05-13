@@ -63,9 +63,10 @@
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label10 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
-            this.label12 = new System.Windows.Forms.Label();
+            this.label_noAsio = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel_wasapi.SuspendLayout();
@@ -230,6 +231,7 @@
             // 
             // panel_asio
             // 
+            this.panel_asio.Controls.Add(this.label_noAsio);
             this.panel_asio.Controls.Add(this.label4);
             this.panel_asio.Controls.Add(this.button_asioPanel);
             this.panel_asio.Controls.Add(this.comboBox_asioDriver);
@@ -506,6 +508,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "About";
             // 
+            // label12
+            // 
+            this.label12.Location = new System.Drawing.Point(6, 93);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(310, 20);
+            this.label12.TabIndex = 8;
+            this.label12.Text = "uses Naudio library by Mark Heath";
+            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // label11
             // 
             this.label11.Location = new System.Drawing.Point(6, 44);
@@ -526,14 +537,16 @@
             this.linkLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
-            // label12
+            // label_noAsio
             // 
-            this.label12.Location = new System.Drawing.Point(6, 93);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(310, 20);
-            this.label12.TabIndex = 8;
-            this.label12.Text = "uses Naudio library by Mark Heath";
-            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_noAsio.AutoSize = true;
+            this.label_noAsio.ForeColor = System.Drawing.Color.DarkRed;
+            this.label_noAsio.Location = new System.Drawing.Point(48, 109);
+            this.label_noAsio.Name = "label_noAsio";
+            this.label_noAsio.Size = new System.Drawing.Size(160, 17);
+            this.label_noAsio.TabIndex = 10;
+            this.label_noAsio.Text = "ASIO driver not installed";
+            this.label_noAsio.Visible = false;
             // 
             // Settings
             // 
@@ -611,5 +624,6 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.LinkLabel linkLabel2;
+        private System.Windows.Forms.Label label_noAsio;
     }
 }
