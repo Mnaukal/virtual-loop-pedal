@@ -61,31 +61,31 @@ namespace VirtualLoopPedal
             BPM = Convert.ToInt32(numericUpDown_metronomeTempo.Value);
             BPB = Convert.ToInt32(numericUpDown_metronomeMeasuse.Value);
 
-            firstBeatGen = new SignalGenerator(parent.waveFormat.SampleRate, parent.waveFormat.Channels)
-            {
-                Gain = 1,
-                Frequency = 660,
-                Type = SignalGeneratorType.Sin,
-            };
-
-            otherBeatGen = new SignalGenerator(parent.waveFormat.SampleRate, parent.waveFormat.Channels)
-            {
-                Gain = 1,
-                Frequency = 440,
-                Type = SignalGeneratorType.Sin
-            };
-
-            firstBeatVol = new VolumeSampleProvider(firstBeatGen);
-            firstBeatVol.Volume = 0;
-            otherBeatVol = new VolumeSampleProvider(otherBeatGen);
-            otherBeatVol.Volume = 0;
-
             if (parent != null)
             {
+                firstBeatGen = new SignalGenerator(parent.waveFormat.SampleRate, parent.waveFormat.Channels)
+                {
+                    Gain = 1,
+                    Frequency = 660,
+                    Type = SignalGeneratorType.Sin,
+                };
+
+                otherBeatGen = new SignalGenerator(parent.waveFormat.SampleRate, parent.waveFormat.Channels)
+                {
+                    Gain = 1,
+                    Frequency = 440,
+                    Type = SignalGeneratorType.Sin
+                };
+
+                firstBeatVol = new VolumeSampleProvider(firstBeatGen);
+                firstBeatVol.Volume = 0;
+                otherBeatVol = new VolumeSampleProvider(otherBeatGen);
+                otherBeatVol.Volume = 0;
+
                 parent.GetRecorder().AddTrackNoOffset(firstBeatVol);
                 parent.GetRecorder().AddTrackNoOffset(otherBeatVol);
+                Logger.Log("Metronome loaded successfully");
             }
-            Logger.Log("Metronome loaded successfully");
         }
 
         public void SetParent(Pedal parent)

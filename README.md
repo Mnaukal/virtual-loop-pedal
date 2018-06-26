@@ -39,6 +39,8 @@ Looper is a unit that allows you to record sound and then play it back looped. L
 3. To stop recording, press the *Stop* button.
 4. The recording will also automatically stop after the number of bars you set in the *Length* option. (The automatic stop does not work when the metronome is not running)
 
+**Please note that there will always be some latency between recording and playback. Setting Metronome offset to a negative value (recommended is same value as Playback latency, i.e. -100 for default settings)  or Playback offset might help you synchronize the recordings.**
+
 ### Playing 
 
 Playing works similarly to recording. It also waits untill the start of aligned bar. Playback will automatically loop every *Length* bars (even if the recorded sound is shorter).

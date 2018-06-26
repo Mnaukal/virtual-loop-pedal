@@ -19,11 +19,13 @@ namespace VirtualLoopPedal
         Looper selectedLooper = null;
         int looperCount = 0;
         public WaveFormat waveFormat;
-        public Settings settings = new Settings();
+        public Settings settings;
 
         public Pedal()
         {
             Logger.Log("Initilizing Pedal");
+
+            settings = new Settings();
 
             Reset();
             InitializeComponent();
@@ -99,6 +101,9 @@ namespace VirtualLoopPedal
         private void button_deleteLooper_Click(object sender, EventArgs e)
         {
             loopers.Remove(selectedLooper);
+            metronome.Bar -= selectedLooper.Metronome_Bar;
+            metronome.Beat -= selectedLooper.Metronome_Beat;
+            metronome.Stopped -= selectedLooper.Metronome_Stop;
             selectedLooper?.Dispose();
             selectedLooper = null;
         }

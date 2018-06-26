@@ -98,10 +98,16 @@ namespace VirtualLoopPedal
 
         private void Looper_MixerInputEnded(object sender, SampleProviderEventArgs e)
         {
-            /*if (e.SampleProvider == sampleProvider1)
+            if (e.SampleProvider == sampleProvider1)
+            {
+                Logger.Log(Name + " - playback ended (reader1)");
                 sampleProvider1 = null;
+            }
             if (e.SampleProvider == sampleProvider2)
-                sampleProvider2 = null;*/
+            {
+                Logger.Log(Name + " - playback ended (reader2)");
+                sampleProvider2 = null;
+            }
         }
 
         public void SetParent(Pedal parent)
@@ -169,6 +175,7 @@ namespace VirtualLoopPedal
 
         protected override void OnHandleDestroyed(EventArgs e)
         {
+            State = LooperState.Waiting;
             reader1?.Dispose();
             reader1 = null;
             reader2?.Dispose();
@@ -233,7 +240,6 @@ namespace VirtualLoopPedal
         void StartPlayback()
         {
             State = LooperState.Playing;
-            Logger.Log(Name + " - starting playback");
 
             button_play.Enabled = false;
             button_StopPlayback.Enabled = true;
@@ -249,13 +255,15 @@ namespace VirtualLoopPedal
 
                     sampleProvider1 = new OffsetSampleProvider(reader1);
                     parent.GetRecorder().AddTrack(sampleProvider1);
+                    Logger.Log(Name + " - starting playback (reader1 first)");
                 }
-                else if (reader1.Position == reader1.Length)
+                else if /*(reader1.Position == reader1.Length)*/ (sampleProvider1 == null)
                 {
                     reader1.Position = 0;
 
                     sampleProvider1 = new OffsetSampleProvider(reader1);
                     parent.GetRecorder().AddTrack(sampleProvider1);
+                    Logger.Log(Name + " - starting playback (reader1 repeat)");
                 }
                 else if (reader2 == null)
                 {
@@ -264,6 +272,7 @@ namespace VirtualLoopPedal
 
                     sampleProvider2 = new OffsetSampleProvider(reader2);
                     parent.GetRecorder().AddTrack(sampleProvider2);
+                    Logger.Log(Name + " - starting playback (reader2 first)");
                 }
                 else
                 { 
@@ -271,6 +280,7 @@ namespace VirtualLoopPedal
 
                     sampleProvider2 = new OffsetSampleProvider(reader2);
                     parent.GetRecorder().AddTrack(sampleProvider2);
+                    Logger.Log(Name + " - starting playback (reader2 repeat)");
                 }
             }
             else

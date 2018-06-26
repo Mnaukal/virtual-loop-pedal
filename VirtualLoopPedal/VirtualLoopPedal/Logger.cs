@@ -14,8 +14,11 @@ namespace VirtualLoopPedal
         public static void Clear()
         {
             cleared = true;
-            StreamWriter writer = new StreamWriter("log.txt");
-            writer.Close();
+            if (System.ComponentModel.LicenseManager.UsageMode != System.ComponentModel.LicenseUsageMode.Designtime)
+            {
+                StreamWriter writer = new StreamWriter("log.txt");
+                writer.Close();
+            }
             Log("Starting log");
         }
 
@@ -24,10 +27,13 @@ namespace VirtualLoopPedal
             if (!cleared)
                 Clear();
 
-            using (StreamWriter writer = new StreamWriter("log.txt", true))
-            {
-                writer.WriteLine(message);
-            }
+            Console.WriteLine(message);
+
+            if (System.ComponentModel.LicenseManager.UsageMode != System.ComponentModel.LicenseUsageMode.Designtime)
+                using (StreamWriter writer = new StreamWriter("log.txt", true))
+                {
+                    writer.WriteLine(message);
+                }
         }
     }
 }
