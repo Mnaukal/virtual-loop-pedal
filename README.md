@@ -1,3 +1,7 @@
+# Not maintained
+
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
 # Virtual Loop Pedal
 
 Virtual Loop Pedal lets you record sounds and then plays them back in a loop. Each sound is recorded in a *Looper*. By Default you have 4 independent Loopers available, but you can add more.
